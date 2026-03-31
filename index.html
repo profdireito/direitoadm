@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiro de Revisão — Noções de Direito Administrativo</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-dark: #0F5132;
+    --green-mid: #1A7A4A;
+    --green-light: #2EAD6B;
+    --green-pale: #D6F0E3;
+    --green-faint: #F0FAF5;
+    --amber: #B45309;
+    --amber-pale: #FEF3C7;
+    --blue: #1D4ED8;
+    --blue-pale: #EFF6FF;
+    --coral: #9A3412;
+    --coral-pale: #FFF1EE;
+    --text: #1C2B22;
+    --text-secondary: #4B6358;
+    --text-muted: #7A9B8A;
+    --border: #C8E0D4;
+    --bg: #F8FBF9;
+    --white: #FFFFFF;
+    --shadow: 0 2px 12px rgba(15,81,50,0.08);
+    --shadow-lg: 0 8px 32px rgba(15,81,50,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--green-dark);
+    color: white;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -40px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.85);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  header h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 1.5rem;
+  }
+  .progress-wrap {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .progress-track {
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    background: #4ADE80;
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 6px;
+  }
+
+  /* NAV TABS */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .nav-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 1rem 1.25rem;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--green-mid); }
+  .tab-btn.active {
+    color: var(--green-dark);
+    border-bottom-color: var(--green-light);
+    font-weight: 600;
+  }
+
+  /* MAIN CONTENT */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  .section { display: none; animation: fadeIn 0.3s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* TOPIC CARDS */
+  .topic-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .topic-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 0.75rem;
+  }
+  .topic-num {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--green-dark);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .topic-title {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--green-dark);
+    line-height: 1.3;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0.75rem; }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+  .tag-green { background: var(--green-pale); color: var(--green-dark); }
+  .tag-blue { background: var(--blue-pale); color: var(--blue); }
+  .tag-amber { background: var(--amber-pale); color: var(--amber); }
+  .tag-coral { background: var(--coral-pale); color: var(--coral); }
+  .topic-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.65; }
+  .key-points { border-top: 1px solid var(--border); padding-top: 0.75rem; }
+  .key-points li {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    list-style: none;
+    padding: 4px 0 4px 1.5rem;
+    position: relative;
+  }
+  .key-points li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--green-light);
+    font-weight: 600;
+  }
+
+  /* EXERCISES */
+  .exercise-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .ex-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green-mid);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ex-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .ex-question {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    font-size: 13.5px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'Source Sans 3', sans-serif;
+    line-height: 1.5;
+  }
+  .option:hover:not(:disabled) {
+    border-color: var(--green-light);
+    background: var(--green-faint);
+    color: var(--green-dark);
+  }
+  .option.correct {
+    border-color: var(--green-mid);
+    background: var(--green-pale);
+    color: var(--green-dark);
+    font-weight: 500;
+  }
+  .option.wrong {
+    border-color: #DC2626;
+    background: #FEF2F2;
+    color: #7F1D1D;
+  }
+  .option:disabled { cursor: default; }
+  .feedback {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    line-height: 1.6;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: var(--green-pale); color: var(--green-dark); border: 1px solid #A7D7B8; }
+  .feedback.err { background: #FEF2F2; color: #7F1D1D; border: 1px solid #FECACA; }
+
+  /* OPEN QUESTIONS */
+  .open-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.6;
+    resize: vertical;
+    margin-top: 10px;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { outline: none; border-color: var(--green-light); }
+  .show-model-btn {
+    margin-top: 10px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Source Sans 3', sans-serif;
+    border: 1.5px solid var(--green-mid);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--green-mid);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .show-model-btn:hover { background: var(--green-mid); color: white; }
+  .model-answer {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    background: var(--green-faint);
+    color: var(--green-dark);
+    border: 1px solid #A7D7B8;
+    display: none;
+  }
+  .model-answer.show { display: block; }
+  .model-answer strong { font-weight: 600; display: block; margin-bottom: 4px; }
+
+  /* CHECKLIST */
+  .checklist-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .checklist-card h2 {
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--green-dark);
+    margin-bottom: 6px;
+  }
+  .checklist-card > p {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .checklist-item input[type="checkbox"] {
+    margin-top: 2px;
+    width: 17px; height: 17px;
+    accent-color: var(--green-mid);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .checklist-item label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1.5;
+    transition: all 0.2s;
+  }
+  .checklist-item input:checked + label {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+  .checklist-score {
+    margin-top: 1rem;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-mid);
+    text-align: right;
+  }
+
+  /* SCORE BANNER */
+  .score-banner {
+    background: var(--green-faint);
+    border: 1px solid #A7D7B8;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    color: var(--green-dark);
+    margin-top: 1rem;
+    font-weight: 500;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 2rem 1rem 1.5rem; }
+    main { padding: 1.5rem 1rem 3rem; }
+    .topic-card, .exercise-card, .open-card { padding: 1.25rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Colégio Excelência · Técnico em Serviços Jurídicos · 3º Período</div>
+  <h1>Roteiro de Revisão<br>Noções de Direito Administrativo</h1>
+  <p>Prof. Esp. Caio Filipe Duarte Araújo</p>
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
+    <div class="progress-label" id="prog-label">0 de 15 questões respondidas</div>
+  </div>
+</header>
+
+<!-- MODAL IDENTIFICAÇÃO -->
+<div id="modal-overlay" style="position:fixed;inset:0;background:rgba(15,81,50,0.7);z-index:999;display:flex;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.2);text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:0.75rem">📝</div>
+    <h2 style="font-family:'Lora',serif;font-size:20px;font-weight:600;color:#0F5132;margin-bottom:6px">Antes de começar</h2>
+    <p style="font-size:13px;color:#7A9B8A;margin-bottom:1.5rem">Identifique-se para que o professor possa acompanhar seu progresso.</p>
+    <input id="input-nome" type="text" placeholder="Seu nome completo" style="width:100%;padding:10px 14px;border:1.5px solid #C8E0D4;border-radius:10px;font-size:14px;font-family:'Source Sans 3',sans-serif;background:#F8FBF9;color:#1C2B22;margin-bottom:10px;display:block">
+    <div style="display:flex;gap:8px;margin-bottom:1.25rem">
+      <button onclick="selectTurma('Vespertino',this)" id="btn-vesp" style="flex:1;padding:9px;font-size:13px;font-weight:600;font-family:'Source Sans 3',sans-serif;border:1.5px solid #C8E0D4;border-radius:10px;background:#F8FBF9;color:#4B6358;cursor:pointer;transition:all 0.2s">Vespertino</button>
+      <button onclick="selectTurma('Noturno',this)" id="btn-not" style="flex:1;padding:9px;font-size:13px;font-weight:600;font-family:'Source Sans 3',sans-serif;border:1.5px solid #C8E0D4;border-radius:10px;background:#F8FBF9;color:#4B6358;cursor:pointer;transition:all 0.2s">Noturno</button>
+    </div>
+    <div id="modal-err" style="font-size:12px;color:#DC2626;margin-bottom:10px;display:none">Preencha seu nome e selecione a turma.</div>
+    <button onclick="confirmarIdentidade()" style="width:100%;padding:11px;background:#0F5132;color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:'Source Sans 3',sans-serif;cursor:pointer">Começar</button>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <button class="tab-btn active" onclick="showTab('roteiro',this)">📖 Roteiro de Estudos</button>
+    <button class="tab-btn" onclick="showTab('multipla',this)">✏️ Múltipla Escolha</button>
+    <button class="tab-btn" onclick="showTab('dissertativa',this)">📝 Questões Dissertativas</button>
+    <button class="tab-btn" onclick="showTab('checklist',this)">✅ Checklist</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ROTEIRO -->
+  <div class="section active" id="roteiro">
+
+    <div class="topic-card">
+      <div class="topic-header">
+        <div class="topic-num">1</div>
+        <div class="topic-title">Os Princípios do LIMPE — o que a Constituição exige da Administração Pública</div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">CF/88 art. 37</span>
+        <span class="tag tag-blue">LIMPE</span>
+      </div>
+      <p class="topic-desc">O art. 37 da Constituição Federal lista 5 princípios que todo órgão público deve seguir obrigatoriamente. A sigla <strong>LIMPE</strong> ajuda a memorizar: <strong>L</strong>egalidade, <strong>I</strong>mpessoalidade, <strong>M</strong>oralidade, <strong>P</strong>ublicidade e <strong>E</strong>ficiência.</p>
+      <ul class="key-points">
+        <li><strong>Legalidade:</strong> o servidor só pode fazer o que a lei autoriza. Se a lei não permite, está proibido. É o oposto do que vale para o cidadão comum (que pode fazer tudo que a lei não proíbe).</li>
+        <li><strong>Impessoalidade:</strong> o agente público não age em nome próprio — age em nome do Estado. Por isso é proibido usar cargo ou dinheiro público para se promover pessoalmente. Ex: colocar foto do prefeito em obra pública com slogan de campanha viola esse princípio.</li>
+        <li><strong>Moralidade:</strong> não basta agir dentro da lei; é preciso agir com honestidade, lealdade e boa-fé. Um ato pode ser "legal" mas ainda assim ser imoral e, por isso, anulável.</li>
+        <li><strong>Publicidade:</strong> os atos da Administração devem ser divulgados para que qualquer pessoa possa conhecê-los e fiscalizá-los. Sigilo só é permitido quando a lei expressamente autoriza.</li>
+        <li><strong>Eficiência:</strong> o serviço público deve ser prestado com qualidade, rapidez e economia de recursos. Esse princípio foi incluído na Constituição em 1998 (EC nº 19). Ex: digitalizar processos e reduzir tempo de atendimento.</li>
+        <li>⚠️ Cuidado com armadilhas de prova: <em>boa-fé, sigilo, ética e imparcialidade</em> não estão no art. 37 — são distratores frequentes.</li>
+      </ul>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-header">
+        <div class="topic-num">2</div>
+        <div class="topic-title">Os Deveres do Agente Público — o PEPA</div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-coral">Deveres</span>
+        <span class="tag tag-amber">PEPA</span>
+      </div>
+      <p class="topic-desc">Além dos princípios do LIMPE, o agente público tem deveres específicos no exercício de sua função. A sigla <strong>PEPA</strong> resume os quatro principais: <strong>P</strong>robidade, <strong>E</strong>ficiência, <strong>P</strong>restar Contas e <strong>A</strong>gir.</p>
+      <ul class="key-points">
+        <li><strong>Probidade:</strong> agir com honestidade, integridade e ética. Quem viola a probidade pratica improbidade administrativa — crime que pode resultar em perda do cargo, suspensão de direitos políticos e ressarcimento ao erário. Ex: um fiscal que deixa de autuar um amigo em troca de favor age de forma ímproba.</li>
+        <li><strong>Eficiência:</strong> além de ser um princípio do LIMPE, é também um dever individual do servidor. Cada agente deve executar suas funções com qualidade, presteza e sem desperdício de recursos públicos.</li>
+        <li><strong>Prestar Contas:</strong> todo agente que administra recursos públicos é obrigado a prestar contas de como usou esse dinheiro. Isso vale para prefeitos, gestores, diretores de escolas públicas etc. A falta de prestação de contas é infração grave.</li>
+        <li><strong>Agir (Poder-Dever de Agir):</strong> quando o agente tem competência para agir, ele é <em>obrigado</em> a agir. Não agir quando deveria (omissão) é tão ilegal quanto agir errado. Ex: um fiscal ambiental que flagra crime e nada faz está descumprindo o dever de agir.</li>
+        <li>⚠️ Ponto-chave: no Direito Administrativo, poder e dever andam juntos. O servidor não "pode" — ele <em>deve</em>. Escolher não agir por razões pessoais configura abuso de poder por omissão.</li>
+      </ul>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-header">
+        <div class="topic-num">3</div>
+        <div class="topic-title">Estado, Governo e Administração Pública — qual a diferença?</div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-green">Teoria Geral</span>
+      </div>
+      <p class="topic-desc">Esses três termos parecem sinônimos, mas têm significados bem diferentes no Direito Administrativo. É fundamental saber distingui-los, pois as provas adoram embaralhá-los nas alternativas.</p>
+      <ul class="key-points">
+        <li><strong>Estado:</strong> é o Brasil como pessoa jurídica — soberano, permanente e independente. O Estado não muda com eleições; ele existe enquanto existir o país.</li>
+        <li><strong>Governo:</strong> é quem está no poder <em>agora</em> e toma as decisões políticas. É temporário — muda a cada eleição. Ex: o governo Lula, o governo Zema. O governo define as prioridades e políticas públicas.</li>
+        <li><strong>Administração Pública:</strong> é a "máquina" que executa as decisões do Governo no dia a dia. São os servidores, as secretarias, as autarquias, as empresas públicas. A Administração não decide — ela executa.</li>
+        <li>Analogia simples: o Estado é o "país", o Governo é o "gerente" que decide o que fazer, e a Administração Pública é o "time de funcionários" que faz acontecer.</li>
+        <li>⚠️ O Judiciário não faz parte do Governo no sentido político. Ele é independente e fiscaliza se os atos da Administração estão dentro da lei.</li>
+      </ul>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-header">
+        <div class="topic-num">4</div>
+        <div class="topic-title">Poder de Polícia e o Princípio da Razoabilidade</div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-amber">Poder de Polícia</span>
+        <span class="tag tag-blue">Razoabilidade</span>
+      </div>
+      <p class="topic-desc">O Poder de Polícia é a ferramenta que o Estado usa para limitar direitos individuais em benefício da coletividade. Mas esse poder tem limite: precisa ser razoável e proporcional à situação concreta.</p>
+      <ul class="key-points">
+        <li><strong>O que é Poder de Polícia?</strong> É o poder de fiscalizar, autuar, multar, embargar, interditar — tudo para proteger o interesse público. Ex: fiscalizar estabelecimentos comerciais, multar carros em local proibido, interditar obra irregular.</li>
+        <li><strong>Razoabilidade:</strong> a punição deve ser proporcional à infração. Não adianta aplicar uma multa milionária por uma infração mínima. O ato desproporcional pode ser anulado.</li>
+        <li><strong>Exemplo da prova:</strong> multar uma ambulância do SAMU estacionada na calçada enquanto salva uma vida viola a razoabilidade. O interesse público de salvar a vida supera a infração de trânsito no caso concreto.</li>
+        <li>A aplicação cega da lei, sem considerar o contexto, não é fidelidade à legalidade — é abuso de poder.</li>
+        <li>O ato irrazoável pode ser anulado pela própria Administração (autotutela) ou pelo Poder Judiciário.</li>
+      </ul>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-header">
+        <div class="topic-num">5</div>
+        <div class="topic-title">Princípio da Continuidade dos Serviços Públicos</div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-blue">Serviços Públicos</span>
+        <span class="tag tag-green">Concessão</span>
+      </div>
+      <p class="topic-desc">Serviços públicos essenciais — como transporte, saúde, água, energia — não podem parar. Mesmo quando prestados por empresas privadas (concessão), a continuidade é obrigatória.</p>
+      <ul class="key-points">
+        <li><strong>O que é concessão?</strong> O Estado "passa" para uma empresa privada o direito de operar um serviço público (ex: ônibus, rodovia). Mas o Estado continua sendo o dono do serviço — a empresa só executa.</li>
+        <li>Por isso, a empresa concessionária não pode parar o serviço por conta própria, nem mesmo alegando prejuízo financeiro.</li>
+        <li>Se o serviço for deficitário, a solução é renegociar o contrato com a Administração — nunca interromper o serviço unilateralmente.</li>
+        <li>Se a empresa parar o serviço sem autorização, o poder público pode: aplicar multas contratuais, intervir na concessão, ou retomar o serviço diretamente.</li>
+        <li>⚠️ Lucro baixo não justifica interrupção. Interesse público vem antes do interesse econômico da empresa.</li>
+      </ul>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-header">
+        <div class="topic-num">6</div>
+        <div class="topic-title">Princípio da Publicidade — transparência e licitações</div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-amber">Publicidade</span>
+        <span class="tag tag-blue">Licitação</span>
+      </div>
+      <p class="topic-desc">A Administração Pública não pode agir nas sombras. Tudo que o poder público faz — especialmente quando envolve dinheiro — precisa ser publicado e acessível a qualquer cidadão.</p>
+      <ul class="key-points">
+        <li><strong>O que é publicidade?</strong> É a obrigação de tornar os atos administrativos conhecidos. Não é propaganda — é transparência. A diferença importa: propaganda pessoal do gestor viola a <em>impessoalidade</em>, não a publicidade.</li>
+        <li><strong>Na licitação:</strong> o edital (o "convite" para empresas participarem de uma compra pública) precisa ser publicado no Diário Oficial e no site do órgão. Não pode ser "informação interna".</li>
+        <li>Esconder o edital impede que empresas participem, fere a isonomia (igualdade de condições) e invalida todo o processo licitatório.</li>
+        <li>Qualquer empresa ou cidadão interessado tem direito de acessar o edital e todos os documentos do processo.</li>
+        <li>⚠️ Sigilo só é permitido quando a lei expressamente autoriza (ex: sigilo fiscal, segurança nacional). Fora disso, tudo deve ser público.</li>
+      </ul>
+    </div>
+
+    <div class="topic-card">
+      <div class="topic-header">
+        <div class="topic-num">7</div>
+        <div class="topic-title">Controle Judicial — o Brasil e o Sistema de Jurisdição Única</div>
+      </div>
+      <div class="tags">
+        <span class="tag tag-coral">Controle</span>
+        <span class="tag tag-blue">Judiciário</span>
+      </div>
+      <p class="topic-desc">No Brasil, qualquer pessoa que se sentir prejudicada por um ato ilegal da Administração pode ir diretamente à Justiça. Não precisa esperar a Administração resolver o problema internamente.</p>
+      <ul class="key-points">
+        <li><strong>Sistema de Jurisdição Única (Sistema Inglês):</strong> adotado pelo Brasil. Significa que há um único sistema de Justiça — o Judiciário — que pode julgar qualquer ato, inclusive os da Administração Pública.</li>
+        <li><strong>Sistema Francês (Contencioso Administrativo):</strong> adotado na França. Tem tribunais separados para julgar atos administrativos. O Brasil <em>não adota</em> esse sistema — cuidado com essa pegadinha.</li>
+        <li>Base legal: art. 5º, XXXV da CF/88 — "a lei não excluirá da apreciação do Poder Judiciário lesão ou ameaça a direito."</li>
+        <li><strong>Importante:</strong> quando o juiz anula um ato administrativo ilegal, ele não passa a administrar no lugar do gestor. O Judiciário fiscaliza a legalidade — não substitui o administrador.</li>
+        <li>Exemplo: servidor demitido ilegalmente pode ir à Justiça imediatamente, sem precisar esgotar todos os recursos dentro da Prefeitura primeiro.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- MÚLTIPLA ESCOLHA -->
+  <div class="section" id="multipla">
+    <div id="mc-wrap"></div>
+    <div id="diagnostico" style="display:none"></div>
+  </div>
+
+  <!-- DISSERTATIVAS -->
+  <div class="section" id="dissertativa">
+    <div id="open-wrap"></div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section" id="checklist">
+    <div class="checklist-card">
+      <h2>Checklist de Revisão</h2>
+      <p>Marque cada item conforme se sentir seguro no tema. Use como guia de autoavaliação antes da prova.</p>
+      <div id="checklist-wrap"></div>
+      <div class="checklist-score" id="ck-score">0 / 10 itens dominados</div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Noções de Direito Administrativo · Colégio Excelência · Prof. Esp. Caio Filipe Duarte Araújo
+</footer>
+
+<script>
+const STORE_KEY = 'dadm_respostas';
+let alunoNome = '';
+let alunoTurma = '';
+let turmaSelected = '';
+const mcChosen = {};
+
+function selectTurma(t, btn){
+  turmaSelected = t;
+  document.querySelectorAll('#btn-vesp,#btn-not').forEach(b=>{
+    b.style.background='#F8FBF9'; b.style.color='#4B6358'; b.style.borderColor='#C8E0D4';
+  });
+  btn.style.background='#0F5132'; btn.style.color='white'; btn.style.borderColor='#0F5132';
+}
+
+function confirmarIdentidade(){
+  const nome = document.getElementById('input-nome').value.trim();
+  if(!nome || !turmaSelected){
+    document.getElementById('modal-err').style.display='block';
+    return;
+  }
+  alunoNome = nome;
+  alunoTurma = turmaSelected;
+  document.getElementById('modal-overlay').style.display='none';
+}
+
+function saveToStorage(){
+  const mcRespostas = mcData.map((item,i)=>({
+    enunciado: item.q,
+    escolhida: mcChosen[i]!==undefined ? item.opts[mcChosen[i]] : 'Não respondida',
+    correto: results[i] === true
+  }));
+  const dissRespostas = openData.map((item,i)=>({
+    enunciado: item.q,
+    resposta: document.querySelectorAll('.open-card textarea')[i]?.value || ''
+  }));
+  const erros = mcData.filter((_,i)=>results[i]===false);
+  const acertos = mcData.length - erros.length;
+  const pct = Math.round((acertos/mcData.length)*100);
+  const topicosFragos=[...new Set(erros.map(e=>e.topic))];
+  const topicosOk=[...new Set(mcData.filter((_,i)=>results[i]===true).map(e=>e.topic))];
+  const registro = {
+    nome: alunoNome,
+    turma: alunoTurma,
+    dataHora: new Date().toISOString(),
+    placar: pct, acertos,
+    totalQuestoes: mcData.length,
+    respostasMC: mcRespostas,
+    dissertativas: dissRespostas,
+    temasFragos: topicosFragos,
+    temasOk: topicosOk
+  };
+  const dados = JSON.parse(localStorage.getItem(STORE_KEY)||'[]');
+  const idx = dados.findIndex(d=>d.nome===alunoNome && d.turma===alunoTurma);
+  if(idx>=0) dados[idx]=registro; else dados.push(registro);
+  localStorage.setItem(STORE_KEY, JSON.stringify(dados));
+}
+
+const mcData = [
+  {
+    q: "Qual dos seguintes conjuntos representa corretamente os princípios expressos no art. 37 da Constituição Federal de 1988?",
+    opts: [
+      "A) Legalidade, impessoalidade, moralidade, publicidade e eficiência.",
+      "B) Legalidade, imparcialidade, moralidade, transparência e eficiência.",
+      "C) Legalidade, boa-fé, moralidade, publicidade e eficiência.",
+      "D) Legalidade, impessoalidade, ética, sigilo e eficiência."
+    ],
+    answer: 0,
+    topic: "Princípios Constitucionais — LIMPE (art. 37, CF/88)",
+    roteiro: 1,
+    fb: "O art. 37 da CF/88 consagra o mnemônico LIMPE: Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiência. Boa-fé, sigilo, ética e imparcialidade não estão no texto constitucional — são distratores muito comuns em provas."
+  },
+  {
+    q: "Um guarda municipal multa uma ambulância do SAMU estacionada na calçada durante o resgate de uma vítima de infarto. O guarda alega que 'a lei vale para todos'. Sob a ótica do Direito Administrativo, essa conduta:",
+    opts: [
+      "A) É correta, pois o Princípio da Legalidade impede qualquer exceção, mesmo em emergências.",
+      "B) É anulável, pois viola o Princípio da Razoabilidade — salvar uma vida supera a infração de trânsito no caso concreto.",
+      "C) É válida com base no Princípio da Impessoalidade, pois o guarda não pode beneficiar a ambulância.",
+      "D) Fere o Princípio da Publicidade, pois a multa deveria ter sido avisada previamente."
+    ],
+    answer: 1,
+    topic: "Poder de Polícia e Princípio da Razoabilidade",
+    roteiro: 4,
+    fb: "O Poder de Polícia deve ser exercido com razoabilidade e proporcionalidade. No caso concreto, o interesse público de preservar a vida humana supera a infração de trânsito. A aplicação cega da lei, sem ponderar o contexto, torna o ato anulável."
+  },
+  {
+    q: "Durante a reforma de uma praça pública, o Prefeito mandou instalar um painel com sua fotografia e o slogan 'Prefeito Fulano: Trabalhando por Você', pago com dinheiro público. Essa atitude fere diretamente qual princípio constitucional?",
+    opts: [
+      "A) Princípio da Publicidade, pois a placa deveria divulgar apenas os gastos da obra.",
+      "B) Princípio da Legalidade, pois prefeitos não podem inaugurar praças.",
+      "C) Princípio da Eficiência, pois o valor da placa poderia ser investido na própria obra.",
+      "D) Princípio da Impessoalidade, pois a obra pública não deve servir para promoção pessoal do gestor."
+    ],
+    answer: 3,
+    topic: "Princípio da Impessoalidade — Vedação à Promoção Pessoal",
+    roteiro: 1,
+    fb: "O art. 37, §1º da CF/88 é expresso: a publicidade dos atos governamentais não pode ter caráter promocional pessoal. A obra pertence ao Estado, não ao gestor. Usar dinheiro público para se promover viola o Princípio da Impessoalidade."
+  },
+  {
+    q: "A Administração Pública de uma cidade do Norte de Minas substituiu todos os processos de papel por um sistema eletrônico. O tempo de resposta caiu de 30 para 5 dias e os gastos reduziram 40%. Essa modernização reflete prioritariamente qual princípio do LIMPE?",
+    opts: [
+      "A) Legalidade.",
+      "B) Eficiência.",
+      "C) Impessoalidade.",
+      "D) Moralidade."
+    ],
+    answer: 1,
+    topic: "Princípio da Eficiência — LIMPE",
+    roteiro: 1,
+    fb: "O Princípio da Eficiência exige que a Administração atue com qualidade, rapidez e economia de recursos. A digitalização com redução do tempo de atendimento e dos custos é o exemplo mais claro de aplicação desse princípio, inserido na CF/88 pela EC nº 19/1998."
+  },
+  {
+    q: "Assinale a alternativa que define corretamente a relação entre Estado, Governo e Administração Pública:",
+    opts: [
+      "A) O Governo é permanente e imutável, enquanto a Administração Pública muda a cada eleição, e o Estado apenas julga as leis.",
+      "B) O Judiciário faz parte do Governo e tem a função primária de criar políticas públicas e executar obras.",
+      "C) O Estado é a pessoa jurídica soberana e permanente; o Governo toma as decisões políticas (temporário); a Administração Pública é o braço executório que presta serviços à população.",
+      "D) A Administração Pública não se submete aos princípios constitucionais, devendo obedecer apenas ao Governo da época."
+    ],
+    answer: 2,
+    topic: "Estado, Governo e Administração Pública",
+    roteiro: 3,
+    fb: "Estado = permanente (é o país como pessoa jurídica). Governo = temporário, toma decisões políticas, muda com eleições. Administração Pública = executa o que o Governo decide, no dia a dia. O Judiciário não cria políticas públicas — fiscaliza a legalidade dos atos."
+  },
+  {
+    q: "Um agente fiscal ambiental flagra um indivíduo despejando lixo tóxico em um rio, mas percebe que é seu melhor amigo e decide se retirar sem aplicar a multa, alegando que 'tem o poder de escolher quem multar'. Essa conduta:",
+    opts: [
+      "A) É admissível, pois o agente tem autonomia para avaliar cada situação.",
+      "B) É correta, pois a amizade é uma circunstância atenuante reconhecida pelo Direito Administrativo.",
+      "C) Viola o dever de Probidade e o Poder-Dever de Agir, pois o agente com competência é obrigado a agir, independentemente de vínculos pessoais.",
+      "D) É irregular apenas se houver dano ambiental comprovado por laudo técnico."
+    ],
+    answer: 2,
+    topic: "Deveres PEPA — Probidade e Dever de Agir",
+    roteiro: 2,
+    fb: "O dever de Agir (Poder-Dever) obriga o agente competente a agir. A omissão intencional é abuso de poder. Além disso, a conduta viola a Probidade, pois o agente age com desonestidade e favorecimento pessoal — o que pode configurar improbidade administrativa."
+  },
+  {
+    q: "Patrícia, servidora pública efetiva, foi demitida após um Processo Administrativo conduzido de forma ilegal. Com provas da irregularidade, ela quer saber se pode ir imediatamente à Justiça. A orientação correta é:",
+    opts: [
+      "A) Patrícia pode acionar o Judiciário imediatamente. O Brasil adota o Sistema de Jurisdição Única — qualquer lesão a direito pode ser levada aos Tribunais, sem necessidade de esgotar a via administrativa.",
+      "B) Patrícia é obrigada a aguardar o fim de todos os recursos na Prefeitura. O Brasil adota o Sistema Francês, que proíbe acesso ao Judiciário antes do esgotamento administrativo.",
+      "C) Patrícia não pode ir ao Judiciário, pois a demissão foi um ato interno da Administração Pública.",
+      "D) Patrícia pode ir ao Judiciário, e o juiz passará a administrar a Prefeitura no lugar do Prefeito."
+    ],
+    answer: 0,
+    topic: "Controle Judicial — Sistema de Jurisdição Única",
+    roteiro: 7,
+    fb: "O Brasil adota o Sistema Inglês (Jurisdição Única), garantido pelo art. 5º, XXXV da CF/88: 'a lei não excluirá da apreciação do Poder Judiciário lesão ou ameaça a direito'. Patrícia pode ir ao Judiciário imediatamente. O juiz anula o ato ilegal — mas não passa a administrar no lugar do gestor."
+  },
+  {
+    q: "Uma empresa de Montes Claros tenta participar de uma licitação da Câmara Municipal de uma cidade vizinha, mas não encontra o edital no site nem no Diário Oficial. Por telefone, é informada de que 'as informações são internas'. Qual princípio está sendo violado?",
+    opts: [
+      "A) Eficiência, pois o processo está sendo conduzido de forma lenta.",
+      "B) Publicidade, pois o edital deve ser amplamente divulgado e acessível a qualquer interessado.",
+      "C) Moralidade, pois os servidores agiram de forma antiética ao telefone.",
+      "D) Legalidade, pois câmaras municipais não podem realizar licitações."
+    ],
+    answer: 1,
+    topic: "Princípio da Publicidade — Licitações",
+    roteiro: 6,
+    fb: "O Princípio da Publicidade exige que editais de licitação sejam publicados no Diário Oficial e no site do órgão. Tratar o edital como 'informação interna' impede a participação de concorrentes, fere a isonomia e invalida o processo licitatório."
+  },
+  {
+    q: "O dever de Prestar Contas impõe ao agente público a obrigação de:",
+    opts: [
+      "A) Apresentar relatórios apenas quando solicitado pelo Ministério Público.",
+      "B) Demonstrar, de forma transparente, como os recursos públicos foram utilizados, independentemente de solicitação.",
+      "C) Explicar suas decisões apenas aos superiores hierárquicos, mantendo sigilo perante os cidadãos.",
+      "D) Justificar seus atos somente em caso de suspeita de irregularidade."
+    ],
+    answer: 1,
+    topic: "Deveres PEPA — Dever de Prestar Contas",
+    roteiro: 2,
+    fb: "O dever de Prestar Contas é permanente e independe de solicitação. Todo agente que administra recursos públicos deve demonstrar como esse dinheiro foi usado — ao TCE, ao TCU, à Câmara, e ao cidadão. A omissão nesse dever é infração grave e pode gerar responsabilização."
+  },
+  {
+    q: "Uma empresa concessionária de transporte público decide cancelar as linhas de ônibus aos domingos e feriados, alegando que o número de passageiros é baixo e o serviço dá prejuízo. Com base no Princípio da Continuidade dos Serviços Públicos, essa conduta:",
+    opts: [
+      "A) É legítima, pois empresas privadas têm direito de gerir seus contratos com base na lucratividade.",
+      "B) Não é permitida — serviços públicos essenciais não podem ser interrompidos unilateralmente por razão econômica.",
+      "C) É regular, desde que a empresa notifique os usuários com antecedência mínima de 30 dias.",
+      "D) É válida se houver autorização expressa do Secretário Municipal de Transportes."
+    ],
+    answer: 1,
+    topic: "Princípio da Continuidade dos Serviços Públicos",
+    roteiro: 5,
+    fb: "O Princípio da Continuidade impede a interrupção unilateral de serviços essenciais. O concessionário executa o serviço em nome do Estado — o lucro não é a finalidade. Se o serviço for deficitário, a saída correta é renegociar o contrato com a Administração, não interromper o serviço."
+  },
+  {
+    q: "Qual das condutas abaixo representa uma violação ao dever de Probidade do agente público?",
+    opts: [
+      "A) Um servidor que aplica multa a um estabelecimento que descumpriu norma sanitária, mesmo sendo conhecido do proprietário.",
+      "B) Um gestor que contrata empresa de fachada pertencente a familiar, desviando recursos do erário.",
+      "C) Um prefeito que digitaliza os serviços da prefeitura para reduzir custos e aumentar a eficiência.",
+      "D) Um fiscal que embarga uma obra clandestina após constatar irregularidade em vistoria oficial."
+    ],
+    answer: 1,
+    topic: "Deveres PEPA — Probidade e Improbidade Administrativa",
+    roteiro: 2,
+    fb: "A probidade exige honestidade e integridade no trato com a coisa pública. Contratar empresa de familiar para desviar dinheiro público é improbidade administrativa — crime que pode resultar em perda do cargo, suspensão de direitos políticos e devolução dos valores ao erário."
+  },
+  {
+    q: "Sobre o Princípio da Legalidade aplicado à Administração Pública, é correto afirmar:",
+    opts: [
+      "A) O agente público pode fazer tudo que a lei não proíbe expressamente, assim como qualquer cidadão.",
+      "B) O agente público só pode agir quando há lei autorizando — se não há previsão legal, não há competência para agir.",
+      "C) A legalidade permite ao gestor criar novas obrigações aos cidadãos por decreto, sem precisar de lei.",
+      "D) O Princípio da Legalidade se aplica apenas ao Poder Executivo, não ao Judiciário ou Legislativo."
+    ],
+    answer: 1,
+    topic: "Princípio da Legalidade — LIMPE",
+    roteiro: 1,
+    fb: "O Princípio da Legalidade na Administração Pública é mais restrito do que para os particulares: o agente só pode fazer o que a lei expressamente autoriza. Para o cidadão comum vale o oposto — pode tudo que a lei não proíbe. Essa diferença é fundamental e costuma aparecer em provas."
+  },
+  {
+    q: "Um vereador municipal usa a verba do gabinete para imprimir calendários com sua foto e distribuir para eleitores, alegando que é 'publicidade institucional da Câmara'. Essa conduta viola:",
+    opts: [
+      "A) Apenas o Princípio da Eficiência, pois houve desperdício de dinheiro público.",
+      "B) O Princípio da Impessoalidade, pois recursos públicos não podem ser usados para promover o agente pessoalmente.",
+      "C) O Princípio da Publicidade, pois a distribuição deveria ser feita apenas pelo Diário Oficial.",
+      "D) Nenhum princípio, pois o vereador tem autonomia sobre a verba do gabinete."
+    ],
+    answer: 1,
+    topic: "Princípio da Impessoalidade — Vedação à Promoção Pessoal",
+    roteiro: 1,
+    fb: "O art. 37, §1º da CF/88 proíbe que a publicidade de atos governamentais tenha caráter pessoal/promocional. O dinheiro do gabinete é público — não pode ser usado para benefício eleitoral ou promoção pessoal do agente. Isso viola a Impessoalidade e pode configurar improbidade administrativa."
+  },
+  {
+    q: "Um servidor público, ao ser questionado por um cidadão sobre como foram gastos os recursos de um projeto municipal, responde que 'essas informações são reservadas ao controle interno'. Essa postura viola:",
+    opts: [
+      "A) O dever de Eficiência, pois o servidor deveria responder mais rapidamente.",
+      "B) O dever de Prestar Contas e o Princípio da Publicidade, pois o cidadão tem direito de acesso às informações sobre gastos públicos.",
+      "C) O Princípio da Moralidade, pois o servidor mentiu ao cidadão.",
+      "D) Apenas normas internas da repartição, sem impacto nos princípios constitucionais."
+    ],
+    answer: 1,
+    topic: "Deveres PEPA — Prestar Contas e Publicidade",
+    roteiro: 2,
+    fb: "O dever de Prestar Contas e o Princípio da Publicidade garantem ao cidadão o direito de saber como o dinheiro público é gasto. A Lei de Acesso à Informação (LAI) reforça isso. O sigilo de informações públicas só é legítimo quando expressamente previsto em lei — como segurança nacional ou dados pessoais sensíveis."
+  },
+  {
+    q: "Qual a diferença fundamental entre o Princípio da Legalidade aplicado ao particular e o aplicado ao agente público?",
+    opts: [
+      "A) Não há diferença — ambos seguem as mesmas regras.",
+      "B) O particular pode fazer tudo que a lei não proíbe; o agente público só pode fazer o que a lei expressamente autoriza.",
+      "C) O agente público tem mais liberdade de ação do que o particular, por exercer função pública.",
+      "D) O particular está sujeito à legalidade estrita; o agente público pode agir por conveniência."
+    ],
+    answer: 1,
+    topic: "Princípio da Legalidade — LIMPE",
+    roteiro: 1,
+    fb: "Essa é uma das distinções mais cobradas em provas. Para o particular: liberdade é a regra, e a lei estabelece os limites. Para o agente público: a lei é o fundamento da atuação — sem autorização legal, não há competência para agir. Essa inversão é a essência do Princípio da Legalidade no Direito Administrativo."
+  }
+];
+
+const openData = [
+  {
+    q: "Um fiscal da vigilância sanitária, ao inspecionar um restaurante, constata que o proprietário é seu cunhado e decide encerrar a inspeção sem lavrar o auto de infração, mesmo diante de irregularidades evidentes. Com base nos deveres do agente público (PEPA), explique quais deveres foram descumpridos e por quê essa conduta é ilegal.",
+    model: "A conduta viola dois deveres do PEPA: o dever de Agir (Poder-Dever) e o dever de Probidade. O dever de Agir determina que o agente com competência para agir é obrigado a fazê-lo — a omissão intencional é tão ilegal quanto o excesso. A Probidade exige honestidade e integridade; favorecer parente em detrimento do interesse público caracteriza improbidade administrativa. Além disso, viola o Princípio da Impessoalidade, pois o agente não pode usar a função pública para beneficiar pessoas por vínculos pessoais. As sanções podem incluir responsabilização disciplinar, civil e penal."
+  },
+  {
+    q: "Explique, com suas palavras, por que um serviço público concedido a uma empresa privada não pode ser interrompido mesmo que esteja gerando prejuízo financeiro para a empresa. Quais medidas a Administração pode tomar nessa situação?",
+    model: "O Princípio da Continuidade dos Serviços Públicos impede a interrupção unilateral de serviços essenciais. A concessão não transfere a titularidade do serviço — apenas sua execução. O dono continua sendo o Estado, e o serviço existe para atender o interesse público, não para gerar lucro. Diante de prejuízo, a empresa deve comunicar a Administração e buscar o reequilíbrio econômico-financeiro do contrato. O poder público pode: notificar e aplicar multas contratuais, intervir na concessão para garantir a continuidade, ou encerrar o contrato por inadimplência e retomar o serviço diretamente."
+  },
+  {
+    q: "O Brasil adota o Sistema de Jurisdição Única (Sistema Inglês) no controle dos atos administrativos. Explique o que isso significa na prática e como ele se diferencia do Sistema Francês. Use um exemplo concreto.",
+    model: "O Sistema de Jurisdição Única significa que há apenas um sistema de Justiça no Brasil — o Poder Judiciário — e ele pode julgar qualquer ato, inclusive os da Administração Pública. Está previsto no art. 5º, XXXV, CF/88. Isso significa que qualquer pessoa prejudicada por um ato ilegal da Administração pode ir ao Judiciário imediatamente, sem precisar esgotar os recursos administrativos. Exemplo: um servidor demitido ilegalmente pode ajuizar ação sem esperar a decisão final da própria Prefeitura. Já no Sistema Francês, adotado na França, existem tribunais administrativos separados, e o Judiciário comum não julga atos da Administração. O Brasil nunca adotou esse modelo."
+  },
+  {
+    q: "Explique o que são os deveres PEPA do agente público. Para cada dever, dê um exemplo prático de cumprimento e um exemplo de violação.",
+    model: "Os deveres PEPA são: Probidade (agir com honestidade — ex. cumprimento: aplicar multa mesmo sendo amigo do infrator; violação: receber propina para não autuar). Eficiência (executar com qualidade e rapidez — ex. cumprimento: digitalizar processos para reduzir tempo de atendimento; violação: deixar requerimentos parados por meses sem justificativa). Prestar Contas (demonstrar como o dinheiro público foi usado — ex. cumprimento: apresentar relatório de gastos ao TCE no prazo; violação: não apresentar prestação de contas de verba recebida). Agir (exercer a competência quando necessário — ex. cumprimento: autuar irregularidade mesmo que o infrator seja conhecido; violação: se omitir diante de crime ambiental flagrante para proteger amigo)."
+  }
+];
+
+const checklistItems = [
+  "Sei enunciar os 5 princípios do LIMPE e o que cada um significa.",
+  "Consigo identificar qual princípio do LIMPE é violado em casos práticos.",
+  "Sei explicar os 4 deveres do PEPA: Probidade, Eficiência, Prestar Contas e Agir.",
+  "Entendo o que é o Poder-Dever de Agir e por que a omissão é ilegal.",
+  "Sei distinguir Estado, Governo e Administração Pública com exemplos.",
+  "Compreendo o Princípio da Continuidade e por que a concessão não pode ser interrompida por lucro.",
+  "Sei que o Brasil adota o Sistema de Jurisdição Única (não o Sistema Francês).",
+  "Entendo que o Judiciário anula atos ilegais, mas não administra no lugar do gestor.",
+  "Sei explicar o Poder de Polícia e quando ele viola a Razoabilidade.",
+  "Consigo diferenciar Publicidade (transparência) de Impessoalidade (vedação à promoção pessoal)."
+];
+
+let answered = 0;
+const results = {};
+
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function updateProgress() {
+  const pct = Math.round((answered / mcData.length) * 100);
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = answered + ' de ' + mcData.length + ' questões respondidas';
+  if (answered === mcData.length) showDiagnostico();
+}
+
+function showDiagnostico() {
+  const erros = mcData.filter((_, i) => results[i] === false);
+  const acertos = mcData.length - erros.length;
+  const pct = Math.round((acertos / mcData.length) * 100);
+
+  let nivel, nivelCor, nivelEmoji;
+  if (pct === 100) { nivel = 'Excelente! Domínio total.'; nivelCor = '#0F5132'; nivelEmoji = '🏆'; }
+  else if (pct >= 70) { nivel = 'Bom desempenho — alguns pontos para refinar.'; nivelCor = '#1A7A4A'; nivelEmoji = '👍'; }
+  else if (pct >= 50) { nivel = 'Desempenho intermediário — atenção aos temas abaixo.'; nivelCor = '#B45309'; nivelEmoji = '⚠️'; }
+  else { nivel = 'Precisa reforçar bastante antes da prova.'; nivelCor = '#9A3412'; nivelEmoji = '📚'; }
+
+  let html = `
+    <div style="background:#fff;border:1px solid #C8E0D4;border-radius:14px;padding:1.75rem;margin-top:1.5rem;box-shadow:0 2px 12px rgba(15,81,50,0.08);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid #C8E0D4;">
+        <div style="font-size:2rem;">${nivelEmoji}</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#1A7A4A;margin-bottom:4px;">Diagnóstico de Desempenho</div>
+          <div style="font-family:'Lora',serif;font-size:18px;font-weight:600;color:${nivelCor};">${nivel}</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-bottom:1.5rem;flex-wrap:wrap;">
+        <div style="flex:1;min-width:120px;background:#F0FAF5;border-radius:10px;padding:1rem;text-align:center;">
+          <div style="font-size:28px;font-weight:600;color:#0F5132;">${acertos}</div>
+          <div style="font-size:12px;color:#4B6358;">acertos</div>
+        </div>
+        <div style="flex:1;min-width:120px;background:#FFF1EE;border-radius:10px;padding:1rem;text-align:center;">
+          <div style="font-size:28px;font-weight:600;color:#9A3412;">${erros.length}</div>
+          <div style="font-size:12px;color:#4B6358;">erros</div>
+        </div>
+        <div style="flex:1;min-width:120px;background:#F0FAF5;border-radius:10px;padding:1rem;text-align:center;">
+          <div style="font-size:28px;font-weight:600;color:#0F5132;">${pct}%</div>
+          <div style="font-size:12px;color:#4B6358;">aproveitamento</div>
+        </div>
+      </div>`;
+
+  if (erros.length === 0) {
+    html += `<div style="background:#D6F0E3;border:1px solid #A7D7B8;border-radius:10px;padding:1rem 1.25rem;font-size:14px;color:#0F5132;line-height:1.6;">
+      🎯 Você acertou todas as questões! Revise as explicações de cada gabarito para consolidar o aprendizado e passe para as questões dissertativas para praticar a escrita jurídica.
+    </div>`;
+  } else {
+    html += `<div style="margin-bottom:0.75rem;">
+      <div style="font-size:13px;font-weight:600;color:#9A3412;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;">📌 O que você precisa estudar mais:</div>`;
+
+    const topicosVistos = new Set();
+    erros.forEach(item => {
+      if (topicosVistos.has(item.topic)) return;
+      topicosVistos.add(item.topic);
+      html += `
+        <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:#FFF8F5;border:1px solid #F5CABC;border-radius:10px;margin-bottom:8px;">
+          <div style="flex-shrink:0;width:28px;height:28px;border-radius:50%;background:#9A3412;color:white;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;">${item.roteiro}</div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:#7C2D12;margin-bottom:2px;">${item.topic}</div>
+            <div style="font-size:12px;color:#9A6050;">Revise o Tópico ${item.roteiro} no Roteiro de Estudos</div>
+          </div>
+        </div>`;
+    });
+
+    const topicosOk = mcData.filter((_, i) => results[i] === true);
+    if (topicosOk.length > 0) {
+      html += `<div style="margin-top:1rem;padding:12px 14px;background:#F0FAF5;border:1px solid #A7D7B8;border-radius:10px;">
+        <div style="font-size:12px;font-weight:600;color:#0F5132;margin-bottom:6px;">✓ Temas que você domina:</div>`;
+      const okVistos = new Set();
+      topicosOk.forEach(item => {
+        if (okVistos.has(item.topic)) return;
+        okVistos.add(item.topic);
+        html += `<div style="font-size:13px;color:#1A7A4A;padding:2px 0;">• ${item.topic}</div>`;
+      });
+      html += `</div>`;
+    }
+
+    html += `</div>
+      <div style="margin-top:1rem;padding:12px 14px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;font-size:13px;color:#1D4ED8;line-height:1.6;">
+        💡 <strong>Dica:</strong> Use o <strong>Roteiro de Estudos</strong> (aba ao lado) para revisar os tópicos marcados acima. Em seguida, pratique as <strong>Questões Dissertativas</strong> para consolidar o raciocínio jurídico.
+      </div>`;
+  }
+
+  html += `</div>`;
+  const diag = document.getElementById('diagnostico');
+  diag.innerHTML = html;
+  diag.style.display = 'block';
+  diag.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  saveToStorage();
+}
+
+function buildMC() {
+  const wrap = document.getElementById('mc-wrap');
+  mcData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'exercise-card';
+    div.innerHTML = `
+      <div class="ex-label">Questão ${String(i+1).padStart(2,'0')} — Múltipla Escolha</div>
+      <div class="ex-question">${item.q}</div>
+      <div class="options" id="opts-${i}">
+        ${item.opts.map((o,j) => `<button class="option" onclick="checkAnswer(${i},${j})">${o}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb-${i}"></div>
+    `;
+    wrap.appendChild(div);
+  });
+}
+
+function checkAnswer(qi, oi) {
+  const opts = document.querySelectorAll(`#opts-${qi} .option`);
+  if (opts[0].disabled) return;
+  mcChosen[qi] = oi;
+  opts.forEach((o,j) => {
+    o.disabled = true;
+    if (j === mcData[qi].answer) o.classList.add('correct');
+    else if (j === oi) o.classList.add('wrong');
+  });
+  const fb = document.getElementById('fb-' + qi);
+  const correct = oi === mcData[qi].answer;
+  results[qi] = correct;
+  fb.className = 'feedback show ' + (correct ? 'ok' : 'err');
+  fb.innerHTML = (correct ? '<strong>✓ Correto!</strong> ' : '<strong>✗ Incorreto.</strong> ') + mcData[qi].fb;
+  answered++;
+  updateProgress();
+}
+
+function buildOpen() {
+  const wrap = document.getElementById('open-wrap');
+  openData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'open-card';
+    div.innerHTML = `
+      <div class="ex-label">Questão ${String(i+1).padStart(2,'0')} — Dissertativa</div>
+      <div class="ex-question">${item.q}</div>
+      <textarea placeholder="Escreva sua resposta aqui..." onblur="saveToStorage()"></textarea>
+      <br>
+      <button class="show-model-btn" onclick="toggleModel(${i}, this)">Ver resposta-modelo</button>
+      <div class="model-answer" id="model-${i}"><strong>Resposta-modelo:</strong><br>${item.model}</div>
+    `;
+    wrap.appendChild(div);
+  });
+  // Add save button at end
+  const saveBtn = document.createElement('div');
+  saveBtn.style.cssText = 'text-align:center;margin-top:0.5rem';
+  saveBtn.innerHTML = `<button onclick="saveToStorage();showSaveConfirm(this)" style="padding:10px 28px;background:#0F5132;color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:'Source Sans 3',sans-serif;cursor:pointer">Salvar respostas dissertativas</button>
+  <p style="font-size:12px;color:#7A9B8A;margin-top:6px">As respostas são salvas automaticamente ao sair de cada campo.</p>`;
+  wrap.appendChild(saveBtn);
+}
+
+function showSaveConfirm(btn){
+  const orig = btn.textContent;
+  btn.textContent = '✓ Respostas salvas!';
+  btn.style.background = '#1A7A4A';
+  setTimeout(()=>{ btn.textContent=orig; btn.style.background='#0F5132'; }, 2500);
+}
+
+function toggleModel(i, btn) {
+  const m = document.getElementById('model-' + i);
+  const showing = m.classList.toggle('show');
+  btn.textContent = showing ? 'Ocultar resposta-modelo' : 'Ver resposta-modelo';
+}
+
+function buildChecklist() {
+  const wrap = document.getElementById('checklist-wrap');
+  checklistItems.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'checklist-item';
+    div.innerHTML = `<input type="checkbox" id="ck-${i}" onchange="updateCkScore()"><label for="ck-${i}">${item}</label>`;
+    wrap.appendChild(div);
+  });
+}
+
+function updateCkScore() {
+  const total = checklistItems.length;
+  const checked = document.querySelectorAll('#checklist-wrap input:checked').length;
+  document.getElementById('ck-score').textContent = checked + ' / ' + total + ' itens dominados';
+}
+
+buildMC();
+buildOpen();
+buildChecklist();
+updateProgress();
+</script>
+
+</body>
+</html>
