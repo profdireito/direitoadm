@@ -1147,12 +1147,94 @@ function buildOpen() {
     `;
     wrap.appendChild(div);
   });
+
+  // Botão de enviar dissertativas
+  const btnWrap = document.createElement('div');
+  btnWrap.style.cssText = 'margin-top:2rem;text-align:center;padding:1.5rem;background:#F0FAF5;border:1px solid #A7D7B8;border-radius:14px';
+  btnWrap.innerHTML = `
+    <div style="font-size:13px;color:#4B6358;margin-bottom:1rem;line-height:1.6">
+      📨 Quando terminar de escrever suas respostas, clique no botão abaixo<br>para enviar ao professor.
+    </div>
+    <button id="btn-enviar-diss" onclick="enviarDissertativas()"
+      style="padding:12px 32px;background:#0F5132;color:white;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Source Sans 3',sans-serif;cursor:pointer;transition:.15s;box-shadow:0 4px 14px rgba(15,81,50,0.25)">
+      📨 Enviar Respostas ao Professor
+    </button>
+    <div id="diss-ok-msg" style="display:none;margin-top:12px;font-size:13px;color:#0F5132;font-weight:600">
+      ✓ Respostas enviadas com sucesso!
+    </div>
+  `;
+  wrap.appendChild(btnWrap);
 }
 
 function toggleModel(i, btn) {
   const m = document.getElementById('model-' + i);
   const showing = m.classList.toggle('show');
   btn.textContent = showing ? 'Ocultar resposta-modelo' : 'Ver resposta-modelo';
+}
+
+function enviarDissertativas() {
+  const btn = document.getElementById('btn-enviar-diss');
+  const msg = document.getElementById('diss-ok-msg');
+
+  // Verificar se identificou
+  if(!alunoNome) {
+    alert('Por favor, informe seu nome antes de enviar.');
+    return;
+  }
+
+  try {
+    const STORE_KEY = 'dadm_respostas';
+    const existentes = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+
+    // Pegar textos das dissertativas
+    const dissEls = document.querySelectorAll('#open-wrap textarea');
+    const dissertativas = openData.map((item, i) => ({
+      enunciado: item.q.substring(0, 120) + (item.q.length > 120 ? '...' : ''),
+      resposta: dissEls[i] ? dissEls[i].value.trim() : ''
+    }));
+
+    const temAlgumaResposta = dissertativas.some(d => d.resposta.length > 0);
+    if(!temAlgumaResposta) {
+      alert('Escreva ao menos uma resposta antes de enviar.');
+      return;
+    }
+
+    // Atualizar ou criar registro do aluno
+    const idx = existentes.findIndex(r => r.nome === alunoNome && r.turma === alunoTurma);
+    if(idx >= 0) {
+      existentes[idx].dissertativas = dissertativas;
+      existentes[idx].dataHora = new Date().toISOString();
+    } else {
+      // Aluno não fez MC ainda — criar registro só com dissertativas
+      existentes.push({
+        nome: alunoNome,
+        turma: alunoTurma || 'Não informado',
+        dataHora: new Date().toISOString(),
+        placar: null,
+        acertos: 0,
+        totalQuestoes: mcData.length,
+        respostasMC: [],
+        dissertativas,
+        temasFragos: [],
+        temasOk: []
+      });
+    }
+    localStorage.setItem(STORE_KEY, JSON.stringify(existentes));
+
+    // Feedback visual
+    btn.textContent = '✓ Enviado!';
+    btn.style.background = '#1A7A4A';
+    btn.disabled = true;
+    msg.style.display = 'block';
+    setTimeout(() => {
+      btn.textContent = '📨 Enviar Respostas ao Professor';
+      btn.style.background = '#0F5132';
+      btn.disabled = false;
+    }, 4000);
+
+  } catch(e) {
+    alert('Erro ao salvar. Tente novamente.');
+  }
 }
 
 function buildChecklist() {
