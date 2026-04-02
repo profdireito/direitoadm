@@ -128,7 +128,6 @@ footer{text-align:center;padding:1rem;font-size:11px;color:#7A9B8A;border-top:1p
 </head>
 <body>
 
-<!-- TELA IDENTIFICACAO -->
 <div id="tela-id">
   <div class="id-card">
     <div class="id-logo">
@@ -156,7 +155,6 @@ footer{text-align:center;padding:1rem;font-size:11px;color:#7A9B8A;border-top:1p
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <div id="hdr">
     <div class="hdr-l">
@@ -359,10 +357,10 @@ const mcData = [
 ];
 
 const openData = [
-  {q:"Um fiscal da vigilância sanitária deixa de autuar um restaurante irregular porque o dono e seu cunhado. Com base nos deveres PEPA, explique quais deveres foram descumpridos e por que essa conduta e ilegal.",model:"A conduta viola o Dever de Agir (Poder-Dever) e o Dever de Probidade. O Dever de Agir determina que o agente com competencia e obrigado a agir - a omissao intencional e ilegal. A Probidade exige honestidade; favorecer parente em detrimento do interesse publico configura improbidade administrativa. Viola tambem a Impessoalidade, pois o agente usou a funcao publica para beneficiar pessoa por vinculo pessoal."},
-  {q:"Explique por que um servico publico concedido a empresa privada nao pode ser interrompido mesmo dando prejuizo. Quais medidas a Administracao pode tomar?",model:"O Principio da Continuidade impede interrupcao unilateral de servicos essenciais. A concessao nao transfere a titularidade do servico - apenas sua execucao. O dono continua sendo o Estado e o servico existe para o interesse publico, nao para gerar lucro. Com prejuizo, a empresa deve buscar reequilibrio economico-financeiro do contrato. O poder publico pode notificar, aplicar multas contratuais, intervir na concessao ou retomar o servico."},
-  {q:"O Brasil adota o Sistema de Jurisdicao Unica. Explique o que isso significa na pratica e como difere do Sistema Frances. Use um exemplo.",model:"O Sistema de Jurisdicao Unica significa que ha apenas um sistema de Justica - o Judiciario - que pode julgar qualquer ato, inclusive os da Administracao. Previsto no art. 5, XXXV, CF/88. Qualquer pessoa prejudicada por ato ilegal pode ir ao Judiciario imediatamente, sem esgotar recursos administrativos. Exemplo: servidor demitido ilegalmente pode ajuizar acao sem esperar decisao final da Prefeitura. No Sistema Frances ha tribunais administrativos separados - modelo nao adotado no Brasil."},
-  {q:"Explique os deveres PEPA do agente publico. Para cada dever, de um exemplo pratico de cumprimento e de violacao.",model:"PEPA: Probidade (honestidade - cumprimento: multar infrator mesmo sendo amigo; violacao: receber propina para nao autuar). Eficiencia (qualidade e rapidez - cumprimento: digitalizar processos; violacao: deixar requerimentos parados sem justificativa). Prestar Contas (transparencia nos gastos - cumprimento: apresentar relatorio ao TCE no prazo; violacao: nao prestar contas de verba recebida). Agir (exercer competencia quando necessario - cumprimento: autuar irregularidade mesmo que infrator seja conhecido; violacao: se omitir diante de crime para proteger amigo)."}
+  {q:"Questão 1 aqui",model:"Modelo 1 aqui"},
+  {q:"Questão 2 aqui",model:"Modelo 2 aqui"},
+  {q:"Questão 3 aqui",model:"Modelo 3 aqui"},
+  {q:"Questão 4 aqui",model:"Modelo 4 aqui"}
 ];
 
 const checklistItems = [
@@ -477,12 +475,11 @@ function showDiagnostico(){
   diagEl.style.display='block';
   diagEl.scrollIntoView({behavior:'smooth',block:'start'});
 
-  // Salva resultado automaticamente
   salvarResultado(acertos,pct,erros);
 }
 
 // -------------------------------
-// DISSERTATIVAS
+// DISSERTATIVAS E REGIONALIZAÇÃO
 // -------------------------------
 function buildOpen(){
   const wrap=document.getElementById('open-wrap');
@@ -503,6 +500,25 @@ function toggleModel(i,btn){
   const showing=m.classList.toggle('show');
   btn.textContent=showing?'Ocultar resposta-modelo':'Ver resposta-modelo';
 }
+
+function adaptarCasosPraticos() {
+  const municipio = "Bela Batata";
+  const prefeitura = "Prefeitura de Bela Batata";
+  
+  openData[0].q = `Um fiscal da vigilância sanitária da ${prefeitura} deixa de autuar um restaurante irregular no centro de ${municipio} porque o dono é seu cunhado. Com base nos deveres PEPA, explique quais deveres foram descumpridos e por que essa conduta é ilegal.`;
+  openData[0].model = `A conduta viola o Dever de Agir (Poder-Dever) e o Dever de Probidade. O Dever de Agir determina que o agente com competencia e obrigado a agir - a omissao intencional e ilegal. A Probidade exige honestidade; favorecer parente em detrimento do interesse publico configura improbidade administrativa. Viola tambem a Impessoalidade, pois o agente usou a funcao publica para beneficiar pessoa por vinculo pessoal.`;
+  
+  openData[1].q = `Explique por que um servico publico concedido a empresa privada nao pode ser interrompido mesmo dando prejuizo. Quais medidas a Administracao pode tomar?`;
+  openData[1].model = `O Principio da Continuidade impede interrupcao unilateral de servicos essenciais. A concessao nao transfere a titularidade do servico - apenas sua execucao. O dono continua sendo o Estado e o servico existe para o interesse publico, nao para gerar lucro. Com prejuizo, a empresa deve buscar reequilibrio economico-financeiro do contrato. O poder publico pode notificar, aplicar multas contratuais, intervir na concessao ou retomar o servico.`;
+  
+  openData[2].q = `O Brasil adota o Sistema de Jurisdição Única. Imagine que um servidor de ${municipio} seja demitido ilegalmente. Explique o que a Jurisdição Única significa na prática para este servidor e como difere do Sistema Francês.`;
+  openData[2].model = `O Sistema de Jurisdicao Unica significa que ha apenas um sistema de Justica - o Judiciario - que pode julgar qualquer ato, inclusive os da Administracao. Previsto no art. 5, XXXV, CF/88. Qualquer pessoa prejudicada por ato ilegal pode ir ao Judiciario imediatamente, sem esgotar recursos administrativos. No Sistema Frances ha tribunais administrativos separados - modelo nao adotado no Brasil.`;
+  
+  openData[3].q = `Explique os deveres PEPA do agente publico. Para cada dever, de um exemplo pratico de cumprimento e de violacao.`;
+  openData[3].model = `PEPA: Probidade (honestidade - cumprimento: multar infrator mesmo sendo amigo; violacao: receber propina para nao autuar). Eficiencia (qualidade e rapidez - cumprimento: digitalizar processos; violacao: deixar requerimentos parados sem justificativa). Prestar Contas (transparencia nos gastos - cumprimento: apresentar relatorio ao TCE no prazo; violacao: nao prestar contas de verba recebida). Agir (exercer competencia quando necessario - cumprimento: autuar irregularidade mesmo que infrator seja conhecido; violacao: se omitir diante de crime para proteger amigo).`;
+}
+
+adaptarCasosPraticos();
 
 // -------------------------------
 // CHECKLIST
@@ -553,23 +569,7 @@ async function salvarResultado(acertos,pct,erros){
 }
 
 // -------------------------------
-// REGIONALIZAÇÃO E CASOS PRÁTICOS
-// -------------------------------
-function adaptarCasosPraticos() {
-  const municipio = "Bela Batata";
-  const prefeitura = "Prefeitura de Bela Batata";
-  
-  // Substitui dinamicamente os textos das questões 0 e 2
-  openData[0].q = `Um fiscal da vigilância sanitária da ${prefeitura} deixa de autuar um restaurante irregular no centro de ${municipio} porque o dono é seu cunhado. Com base nos deveres PEPA, explique quais deveres foram descumpridos e por que essa conduta é ilegal.`;
-  
-  openData[2].q = `O Brasil adota o Sistema de Jurisdição Única. Imagine que um servidor de ${municipio} seja demitido ilegalmente. Explique o que a Jurisdição Única significa na prática para este servidor e como difere do Sistema Francês.`;
-}
-
-// Chame a função para adaptar os casos assim que a página carregar
-adaptarCasosPraticos();
-
-// -------------------------------
-// ENVIO COM GAMIFICAÇÃO E PDF
+// ENVIO E PDF
 // -------------------------------
 async function enviarTudo(){
   const btn = document.getElementById('btn-enviar');
@@ -596,7 +596,6 @@ async function enviarTudo(){
       return;
     }
     
-    // Salvando no banco de dados (Firebase)
     await setDoc(doc(_db, 'quiz_resultados', chave), Object.assign({}, existing, {
       nome: alunoNome,
       turmaId: alunoTurmaId,
@@ -606,7 +605,6 @@ async function enviarTudo(){
       dataHora: new Date().toISOString()
     }));
     
-    // Interface de Sucesso
     ok.style.display = 'block';
     ok.innerHTML = `
       <div style="font-size:18px; margin-bottom:5px;">🎓 Missão Cumprida!</div>
@@ -624,9 +622,6 @@ async function enviarTudo(){
   }
 }
 
-// -------------------------------
-// GERAÇÃO DO CERTIFICADO PDF
-// -------------------------------
 function gerarBoletimPDF() {
   const erros = mcData.filter(function(_, i){ return results[i] === false; });
   const acertos = mcData.length - erros.length;
@@ -676,38 +671,6 @@ function gerarBoletimPDF() {
     </html>
   `);
   janelaPDF.document.close();
-}
-  const btn=document.getElementById('btn-enviar');
-  const ok=document.getElementById('envio-ok');
-  btn.disabled=true;
-  btn.textContent='Enviando...';
-  try{
-    if(!_db)await initFB();
-    const {doc,getDoc,setDoc}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
-    const chave='resultado_'+alunoTurmaId+'_'+alunoId;
-    const snap=await getDoc(doc(_db,'quiz_resultados',chave));
-    const existing=snap.exists()?snap.data():{};
-    const dissertativas=openData.map(function(item,i){
-      const el=document.getElementById('diss-'+i);
-      return {enunciado:item.q.substring(0,100),resposta:el?el.value.trim():''};
-    });
-    const temResposta=dissertativas.some(function(d){return d.resposta.length>0;});
-    if(!temResposta){alert('Escreva ao menos uma resposta antes de enviar.');btn.disabled=false;btn.textContent='Enviar Respostas ao Professor';return;}
-    await setDoc(doc(_db,'quiz_resultados',chave),Object.assign({},existing,{
-      nome:alunoNome,
-      turmaId:alunoTurmaId,
-      turma:alunoTurmaNome,
-      alunoId:alunoId,
-      dissertativas:dissertativas,
-      dataHora:new Date().toISOString()
-    }));
-    ok.style.display='block';
-    btn.textContent='Enviado!';
-    setTimeout(function(){btn.disabled=false;btn.textContent='Enviar Respostas ao Professor';},5000);
-  }catch(e){
-    alert('Erro ao enviar. Tente novamente.');
-    btn.disabled=false;btn.textContent='Enviar Respostas ao Professor';
-  }
 }
 
 // -------------------------------
