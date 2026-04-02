@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Revisao — Direito Administrativo</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:"DM Sans",system-ui,sans-serif;background:#F0FAF5;color:#1C2B22;min-height:100vh;font-size:14px}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#1A7A4A;border-radius:4px}
+
+/* TELA INICIAL */
+#tela-id{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:linear-gradient(135deg,#0d2416 0%,#1A4A2E 60%,#0d2416 100%)}
+.id-card{background:#fff;border-radius:22px;padding:32px 26px;width:100%;max-width:380px;box-shadow:0 24px 64px #0007}
+.id-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px;justify-content:center}
+.id-icon{width:46px;height:46px;background:#1A4A2E;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.id-title{font-family:"Syne",sans-serif;font-size:18px;font-weight:800;color:#1A4A2E}
+.id-sub{font-size:11px;color:#7A9B8A;margin-top:2px}
+.id-field{margin-bottom:14px}
+.id-field label{display:block;font-size:10px;font-weight:700;color:#4B6358;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.id-field select,.id-field input{width:100%;border:1.5px solid #C8E0D4;border-radius:10px;padding:11px 13px;font-size:14px;font-family:inherit;background:#F0FAF5;color:#1C2B22;outline:none;transition:.15s}
+.id-field select:focus,.id-field input:focus{border-color:#2EAD6B;background:#fff}
+.id-btn{width:100%;background:#1A4A2E;color:#fff;border:none;border-radius:12px;padding:13px;font-size:15px;font-family:"Syne",sans-serif;font-weight:700;cursor:pointer;transition:.15s;margin-top:4px}
+.id-btn:hover{background:#2E7D4A}
+.id-btn:disabled{opacity:.5;cursor:not-allowed}
+.id-err{font-size:11px;color:#dc2626;margin-top:8px;min-height:14px;text-align:center}
+.id-loading{font-size:12px;color:#7A9B8A;text-align:center;margin-top:8px}
+
+/* APP */
+#app{display:none;min-height:100vh}
+
+/* HEADER */
+#hdr{background:#1A4A2E;color:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #0004}
+.hdr-l{display:flex;align-items:center;gap:8px}
+.hdr-ico{width:30px;height:30px;background:#D4AF37;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;color:#1A4A2E;font-weight:900}
+.hdr-ttl{font-size:13px;font-weight:800;font-family:"Syne",sans-serif;line-height:1}
+.hdr-s{font-size:10px;color:#86efac}
+.hdr-aluno{font-size:11px;color:#D4AF37;font-weight:700}
+
+/* PROGRESS */
+.prog-wrap{background:#fff;border-bottom:1px solid #C8E0D4;padding:8px 14px}
+.prog-track{background:#C8E0D4;border-radius:4px;height:5px;overflow:hidden}
+.prog-fill{background:#2EAD6B;height:100%;border-radius:4px;transition:width .4s ease;width:0%}
+.prog-lbl{font-size:10px;color:#7A9B8A;margin-top:4px;text-align:center}
+
+/* TABS */
+nav{background:#fff;border-bottom:1px solid #C8E0D4;position:sticky;top:52px;z-index:99}
+.nav-inner{max-width:860px;margin:0 auto;display:flex;overflow-x:auto}
+.nav-inner::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:.85rem 1.1rem;font-size:12px;font-weight:600;font-family:inherit;color:#7A9B8A;background:transparent;border:none;border-bottom:3px solid transparent;cursor:pointer;transition:.2s;white-space:nowrap}
+.tab-btn:hover{color:#1A7A4A}
+.tab-btn.active{color:#0F5132;border-bottom-color:#2EAD6B;font-weight:700}
+
+/* MAIN */
+main{max-width:860px;margin:0 auto;padding:1.5rem 1rem 5rem}
+.section{display:none;animation:fadeIn .3s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* TOPIC CARDS */
+.topic-card{background:#fff;border:1px solid #C8E0D4;border-radius:14px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 8px rgba(15,81,50,.06)}
+.topic-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:.6rem}
+.topic-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:#0F5132;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.topic-title{font-family:"Syne",sans-serif;font-size:15px;font-weight:700;color:#0F5132;line-height:1.3}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.6rem}
+.tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px}
+.tag-green{background:#D6F0E3;color:#0F5132}
+.tag-blue{background:#DBEAFE;color:#1E40AF}
+.tag-amber{background:#FEF3C7;color:#B45309}
+.tag-coral{background:#FFE4E4;color:#9A3412}
+.topic-desc{font-size:13px;color:#4B6358;margin-bottom:.6rem;line-height:1.6}
+.key-points{list-style:none;padding:0}
+.key-points li{font-size:12px;color:#374151;line-height:1.6;padding:.3rem 0 .3rem .9rem;border-left:2px solid #D6F0E3;margin-bottom:.4rem}
+.key-points li strong{color:#0F5132}
+
+/* EXERCICIOS */
+.exercise-card{background:#fff;border:1px solid #C8E0D4;border-radius:13px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 8px rgba(15,81,50,.06)}
+.ex-label{font-size:10px;font-weight:700;color:#7A9B8A;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.ex-question{font-size:13px;font-weight:600;color:#1C2B22;line-height:1.6;margin-bottom:.8rem}
+.options{display:flex;flex-direction:column;gap:.4rem}
+.option{text-align:left;padding:.7rem .9rem;border:1.5px solid #C8E0D4;border-radius:9px;background:#fff;font-size:12px;font-family:inherit;cursor:pointer;transition:.15s;line-height:1.5;color:#374151}
+.option:hover:not(:disabled){border-color:#2EAD6B;background:#F0FAF5}
+.option.correct{border-color:#22c55e;background:#DCFCE7;color:#166534;font-weight:600}
+.option.wrong{border-color:#ef4444;background:#FEE2E2;color:#991B1B}
+.option:disabled{cursor:default}
+.feedback{display:none;margin-top:.7rem;padding:.7rem .9rem;border-radius:9px;font-size:12px;line-height:1.6}
+.feedback.show{display:block}
+.feedback.ok{background:#F0FAF5;border:1px solid #A7D7B8;color:#1A4A2E}
+.feedback.err{background:#FFF1EE;border:1px solid #FCA5A5;color:#7C2D12}
+
+/* DISSERTATIVAS */
+.open-card{background:#fff;border:1px solid #C8E0D4;border-radius:13px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 8px rgba(15,81,50,.06)}
+.open-card textarea{width:100%;border:1.5px solid #C8E0D4;border-radius:9px;padding:.7rem .9rem;font-size:12px;font-family:inherit;background:#F0FAF5;color:#1C2B22;resize:vertical;min-height:80px;margin:.5rem 0;outline:none;transition:.15s}
+.open-card textarea:focus{border-color:#2EAD6B;background:#fff}
+.show-model-btn{font-size:11px;font-weight:700;padding:5px 12px;border:1px solid #C8E0D4;border-radius:8px;background:#fff;cursor:pointer;color:#4B6358;font-family:inherit;transition:.15s}
+.show-model-btn:hover{background:#F0FAF5;border-color:#2EAD6B;color:#1A4A2E}
+.model-answer{display:none;margin-top:.7rem;padding:.8rem;background:#F0FAF5;border:1px solid #A7D7B8;border-radius:9px;font-size:12px;color:#1A4A2E;line-height:1.7}
+.model-answer.show{display:block}
+
+/* CHECKLIST */
+.checklist-card{background:#fff;border:1px solid #C8E0D4;border-radius:14px;padding:1.25rem;margin-bottom:1rem}
+.checklist-card h2{font-family:"Syne",sans-serif;font-size:16px;font-weight:800;color:#0F5132;margin-bottom:.4rem}
+.checklist-card p{font-size:12px;color:#7A9B8A;margin-bottom:1rem}
+.checklist-item{display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid #F0FAF5}
+.checklist-item input[type=checkbox]{width:16px;height:16px;accent-color:#2EAD6B;cursor:pointer;flex-shrink:0}
+.checklist-item label{font-size:12px;color:#374151;cursor:pointer;line-height:1.5}
+.checklist-score{margin-top:1rem;font-size:13px;font-weight:700;color:#1A4A2E;text-align:center;padding:.5rem;background:#D6F0E3;border-radius:9px}
+
+/* DIAGNOSTICO */
+#diagnostico{margin-top:1rem}
+
+/* ENVIO */
+.envio-box{background:#fff;border:1px solid #C8E0D4;border-radius:14px;padding:1.25rem;margin-top:1rem;text-align:center}
+.envio-box p{font-size:12px;color:#4B6358;margin-bottom:1rem;line-height:1.6}
+.btn-enviar{padding:12px 28px;background:#1A4A2E;color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:700;font-family:"Syne",sans-serif;cursor:pointer;transition:.15s}
+.btn-enviar:hover{background:#2E7D4A}
+.btn-enviar:disabled{opacity:.5;cursor:not-allowed}
+.envio-ok{display:none;margin-top:12px;font-size:13px;font-weight:700;color:#1A4A2E;padding:10px;background:#D6F0E3;border-radius:9px}
+
+/* FOOTER */
+footer{text-align:center;padding:1rem;font-size:11px;color:#7A9B8A;border-top:1px solid #C8E0D4;background:#fff}
+
+/* SPIN */
+.spin{animation:spin 1s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- TELA IDENTIFICACAO -->
+<div id="tela-id">
+  <div class="id-card">
+    <div class="id-logo">
+      <div class="id-icon">⚖</div>
+      <div>
+        <div class="id-title">Revisao</div>
+        <div class="id-sub">Noções de Direito Administrativo</div>
+      </div>
+    </div>
+    <div class="id-field">
+      <label>Selecione sua Turma</label>
+      <select id="sel-turma" onchange="carregarAlunos()">
+        <option value="">Carregando turmas...</option>
+      </select>
+    </div>
+    <div class="id-field">
+      <label>Selecione seu Nome</label>
+      <select id="sel-aluno" disabled>
+        <option value="">Selecione a turma primeiro</option>
+      </select>
+    </div>
+    <div class="id-err" id="id-err"></div>
+    <div class="id-loading" id="id-loading">Conectando ao servidor...</div>
+    <button class="id-btn" onclick="iniciarEstudo()" id="btn-iniciar" disabled>Comecar Revisao</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div id="hdr">
+    <div class="hdr-l">
+      <div class="hdr-ico">⚖</div>
+      <div>
+        <div class="hdr-ttl">Direito Administrativo</div>
+        <div class="hdr-s">Colegio Excelencia</div>
+      </div>
+    </div>
+    <div class="hdr-aluno" id="hdr-aluno"></div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+    <div class="prog-lbl" id="prog-lbl">0 de 15 questoes respondidas</div>
+  </div>
+  <nav>
+    <div class="nav-inner">
+      <button class="tab-btn active" onclick="showTab('roteiro',this)">Roteiro</button>
+      <button class="tab-btn" onclick="showTab('multipla',this)">Multipla Escolha</button>
+      <button class="tab-btn" onclick="showTab('dissertativa',this)">Dissertativas</button>
+      <button class="tab-btn" onclick="showTab('checklist',this)">Checklist</button>
+    </div>
+  </nav>
+  <main>
+    <div class="section active" id="roteiro">
+<div class="topic-card"><div class="topic-header"><div class="topic-num">1</div><div class="topic-title">Os Principios do LIMPE - o que a Constituicao exige</div></div><div class="tags"><span class="tag tag-green">CF/88 art. 37</span><span class="tag tag-blue">LIMPE</span></div><p class="topic-desc">O art. 37 da CF lista 5 principios obrigatorios: Legalidade, Impessoalidade, Moralidade, Publicidade e Eficiencia.</p><ul class="key-points"><li><strong>Legalidade:</strong> o servidor so pode fazer o que a lei autoriza. E o oposto do que vale para o cidadao comum.</li><li><strong>Impessoalidade:</strong> proibido usar cargo ou dinheiro publico para se promover pessoalmente.</li><li><strong>Moralidade:</strong> nao basta agir dentro da lei; e preciso agir com honestidade e boa-fe.</li><li><strong>Publicidade:</strong> os atos devem ser divulgados para que qualquer pessoa possa conhece-los e fiscaliza-los.</li><li><strong>Eficiencia:</strong> servico publico deve ser prestado com qualidade, rapidez e economia. Incluido em 1998 pela EC 19.</li><li>Cuidado: boa-fe, sigilo, etica e imparcialidade nao estao no art. 37 - sao distratores frequentes em provas.</li></ul></div>
+<div class="topic-card"><div class="topic-header"><div class="topic-num">2</div><div class="topic-title">Os Deveres do Agente Publico - PEPA</div></div><div class="tags"><span class="tag tag-green">Deveres</span><span class="tag tag-amber">PEPA</span></div><p class="topic-desc">Alem do LIMPE, o agente publico tem deveres especificos: Probidade, Eficiencia, Prestar Contas e Agir.</p><ul class="key-points"><li><strong>Probidade:</strong> agir com honestidade. Violacao = improbidade administrativa (perda do cargo, suspensao de direitos).</li><li><strong>Eficiencia:</strong> executar funcoes com qualidade, presteza e sem desperdicio de recursos publicos.</li><li><strong>Prestar Contas:</strong> todo agente que administra recursos publicos deve prestar contas. Omissao e infracao grave.</li><li><strong>Agir (Poder-Dever):</strong> quando tem competencia, e obrigado a agir. Omissao intencional e tao ilegal quanto excesso.</li></ul></div>
+<div class="topic-card"><div class="topic-header"><div class="topic-num">3</div><div class="topic-title">Estado, Governo e Administracao Publica</div></div><div class="tags"><span class="tag tag-blue">Teoria Geral</span></div><p class="topic-desc">Tres termos com significados bem diferentes - as provas adoram embaralha-los.</p><ul class="key-points"><li><strong>Estado:</strong> o Brasil como pessoa juridica - soberano, permanente. Nao muda com eleicoes.</li><li><strong>Governo:</strong> quem esta no poder agora e toma decisoes politicas. E temporario - muda a cada eleicao.</li><li><strong>Administracao Publica:</strong> a "maquina" que executa as decisoes do Governo no dia a dia. Nao decide - executa.</li></ul></div>
+<div class="topic-card"><div class="topic-header"><div class="topic-num">4</div><div class="topic-title">Poder de Policia e Razoabilidade</div></div><div class="tags"><span class="tag tag-coral">Poder de Policia</span><span class="tag tag-amber">Razoabilidade</span></div><p class="topic-desc">O Estado pode limitar direitos individuais em beneficio da coletividade, mas a punicao deve ser proporcional.</p><ul class="key-points"><li><strong>Poder de Policia:</strong> fiscalizar, autuar, multar, embargar, interditar para proteger o interesse publico.</li><li><strong>Razoabilidade:</strong> a punicao deve ser proporcional a infracao. Ato desproporcional pode ser anulado.</li><li>Exemplo: multar ambulancia do SAMU que salva uma vida viola a Razoabilidade.</li></ul></div>
+<div class="topic-card"><div class="topic-header"><div class="topic-num">5</div><div class="topic-title">Continuidade dos Servicos Publicos</div></div><div class="tags"><span class="tag tag-blue">Servicos Publicos</span><span class="tag tag-green">Concessao</span></div><p class="topic-desc">Servicos essenciais nao podem parar, mesmo quando prestados por empresas privadas.</p><ul class="key-points"><li>O Estado continua sendo o dono do servico - a empresa concessionaria so executa.</li><li>A empresa nao pode parar o servico unilateralmente, nem alegando prejuizo financeiro.</li><li>Solucao para prejuizo: renegociar o contrato com a Administracao - nunca interromper o servico.</li></ul></div>
+<div class="topic-card"><div class="topic-header"><div class="topic-num">6</div><div class="topic-title">Principio da Publicidade - Licitacoes</div></div><div class="tags"><span class="tag tag-amber">Publicidade</span><span class="tag tag-blue">Licitacao</span></div><p class="topic-desc">A Administracao nao pode agir nas sombras. Tudo que envolve dinheiro deve ser publicado e acessivel.</p><ul class="key-points"><li>Publicidade nao e propaganda - e transparencia. Promocao pessoal do gestor viola a Impessoalidade.</li><li>Edital de licitacao deve ser publicado no Diario Oficial e no site do orgao.</li><li>Sigilo so e permitido quando a lei expressamente autoriza.</li></ul></div>
+<div class="topic-card"><div class="topic-header"><div class="topic-num">7</div><div class="topic-title">Controle Judicial - Sistema de Jurisdicao Unica</div></div><div class="tags"><span class="tag tag-coral">Controle</span><span class="tag tag-blue">Judiciario</span></div><p class="topic-desc">No Brasil, qualquer pessoa prejudicada por ato ilegal da Administracao pode ir diretamente a Justica.</p><ul class="key-points"><li><strong>Sistema Ingles (Brasil):</strong> um unico sistema de Justica pode julgar qualquer ato, inclusive da Administracao.</li><li><strong>Sistema Frances:</strong> tribunais separados para atos administrativos. O Brasil NAO adota esse modelo.</li><li>Base legal: art. 5, XXXV, CF/88. O juiz anula o ato ilegal mas nao substitui o administrador.</li></ul></div>
+</div>
+    <div class="section" id="multipla">
+      <div id="mc-wrap"></div>
+      <div id="diagnostico" style="display:none"></div>
+    </div>
+    <div class="section" id="dissertativa">
+      <div id="open-wrap"></div>
+      <div class="envio-box">
+        <p>Quando terminar de escrever suas respostas, clique abaixo para enviar ao professor.</p>
+        <button class="btn-enviar" id="btn-enviar" onclick="enviarTudo()">Enviar Respostas ao Professor</button>
+        <div class="envio-ok" id="envio-ok">Enviado com sucesso! O professor ja pode ver suas respostas.</div>
+      </div>
+    </div>
+    <div class="section" id="checklist">
+      <div class="checklist-card">
+        <h2>Checklist de Revisao</h2>
+        <p>Marque cada item conforme se sentir seguro no tema.</p>
+        <div id="checklist-wrap"></div>
+        <div class="checklist-score" id="ck-score">0 / 10 itens dominados</div>
+      </div>
+    </div>
+  </main>
+  <footer>Colegio Excelencia · Tecnico em Servicos Juridicos · Prof. Caio Filipe</footer>
+</div>
+
+<script>
+// -------------------------------
+// FIREBASE CONFIG
+// -------------------------------
+const FB_CONFIG = {
+  apiKey:"AIzaSyB2Y6Uggohrp8hMPIa3GyPqgqyOygRA0SU",
+  authDomain:"professor-digital-8f792.firebaseapp.com",
+  projectId:"professor-digital-8f792",
+  storageBucket:"professor-digital-8f792.firebasestorage.app",
+  messagingSenderId:"4515274923",
+  appId:"1:4515274923:web:25e9bc6d350a411972d7ee"
+};
+
+let _db = null;
+let alunoNome = '';
+let alunoTurmaId = '';
+let alunoTurmaNome = '';
+let alunoId = '';
+let answered = 0;
+const results = {};
+let turmasData = [];
+
+// -------------------------------
+// INIT FIREBASE
+// -------------------------------
+async function initFB(){
+  try{
+    const {initializeApp,getApps} = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+    const {getFirestore} = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const apps = getApps();
+    const app = apps.length ? apps[0] : initializeApp(FB_CONFIG);
+    _db = getFirestore(app);
+    return true;
+  }catch(e){return false;}
+}
+
+// -------------------------------
+// CARREGAR TURMAS DO FIREBASE
+// -------------------------------
+async function carregarTurmas(){
+  const loading = document.getElementById('id-loading');
+  const selTurma = document.getElementById('sel-turma');
+  loading.textContent = 'Conectando ao servidor...';
+
+  try{
+    await initFB();
+    const {doc,getDoc} = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const snap = await getDoc(doc(_db,'publico','turmas'));
+    if(snap.exists()){
+      turmasData = JSON.parse(snap.data().turmas||'[]');
+      selTurma.innerHTML = '<option value="">Selecione sua turma...</option>';
+      turmasData.forEach(function(t){
+        const op = document.createElement('option');
+        op.value = t.id;
+        op.textContent = t.nome;
+        selTurma.appendChild(op);
+      });
+      loading.textContent = turmasData.length + ' turmas carregadas';
+      setTimeout(function(){loading.textContent='';},2000);
+    }else{
+      loading.textContent = 'Nenhuma turma encontrada. Aguarde o professor publicar.';
+      selTurma.innerHTML = '<option value="">Nenhuma turma disponivel</option>';
+    }
+  }catch(e){
+    loading.textContent = 'Erro de conexao. Tente recarregar a pagina.';
+    selTurma.innerHTML = '<option value="">Erro ao carregar</option>';
+  }
+}
+
+function carregarAlunos(){
+  const turmaId = document.getElementById('sel-turma').value;
+  const selAluno = document.getElementById('sel-aluno');
+  const btnIniciar = document.getElementById('btn-iniciar');
+
+  selAluno.innerHTML = '<option value="">Selecione seu nome...</option>';
+  selAluno.disabled = true;
+  btnIniciar.disabled = true;
+
+  if(!turmaId)return;
+
+  const turma = turmasData.find(function(t){return t.id===turmaId;});
+  if(!turma)return;
+
+  (turma.alunos||[]).sort(function(a,b){return a.nome.localeCompare(b.nome,'pt');}).forEach(function(al){
+    const op = document.createElement('option');
+    op.value = al.id;
+    op.textContent = al.nome;
+    op.dataset.nome = al.nome;
+    op.dataset.mat = al.mat||'';
+    selAluno.appendChild(op);
+  });
+
+  selAluno.disabled = false;
+  selAluno.addEventListener('change', function(){
+    btnIniciar.disabled = !this.value;
+  });
+}
+
+function iniciarEstudo(){
+  const selTurma = document.getElementById('sel-turma');
+  const selAluno = document.getElementById('sel-aluno');
+  const err = document.getElementById('id-err');
+
+  if(!selTurma.value){err.textContent='Selecione sua turma.';return;}
+  if(!selAluno.value){err.textContent='Selecione seu nome.';return;}
+
+  const selOpt = selAluno.options[selAluno.selectedIndex];
+  alunoId = selAluno.value;
+  alunoNome = selOpt.dataset.nome || selOpt.textContent;
+  alunoTurmaId = selTurma.value;
+  const turma = turmasData.find(function(t){return t.id===alunoTurmaId;});
+  alunoTurmaNome = turma ? turma.nome : '';
+
+  document.getElementById('tela-id').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('hdr-aluno').textContent = alunoNome;
+
+  buildMC();
+  buildOpen();
+  buildChecklist();
+  updateProgress();
+}
+
+// -------------------------------
+// DADOS
+// -------------------------------
+const mcData = [
+  {q:"Em uma cidade do interior, o prefeito determina que todos os servidores municipais trabalhem aos sabados de graca, sem previsao em lei ou contrato. Essa medida viola qual principio?",opts:["A) Eficiencia, pois reduz a produtividade.","B) Legalidade, pois o agente publico so pode fazer o que a lei autoriza.","C) Moralidade, pois e antiético trabalhar aos sabados.","D) Publicidade, pois a decisao nao foi publicada."],answer:1,topic:"Principio da Legalidade - LIMPE",roteiro:1,fb:"O Principio da Legalidade na Administracao Publica determina que o agente so pode agir quando ha lei autorizando. Ao exigir trabalho extra sem base legal, o prefeito viola esse principio."},
+  {q:"Um prefeito coloca sua foto e slogan de campanha em todas as obras publicas do municipio. Qual principio constitucional ele viola?",opts:["A) Legalidade, pois nao ha lei proibindo.","B) Eficiencia, pois gasta dinheiro desnecessario.","C) Impessoalidade, pois usa recursos publicos para promocao pessoal.","D) Moralidade, pois e antiético usar a propria imagem."],answer:2,topic:"Principio da Impessoalidade - LIMPE",roteiro:1,fb:"O art. 37, paragrafo 1 da CF/88 proibe que publicidade de atos governamentais tenha carater pessoal ou promocional. A colocacao de foto e slogan viola o Principio da Impessoalidade."},
+  {q:"Um servidor publico aprova contratos superfaturados em troca de vantagens pessoais. Qual dever do agente publico foi violado?",opts:["A) Dever de Eficiencia.","B) Dever de Prestar Contas.","C) Dever de Probidade.","D) Dever de Agir."],answer:2,topic:"Deveres PEPA - Probidade",roteiro:2,fb:"O Dever de Probidade exige honestidade e integridade no trato com a coisa publica. Receber vantagens em troca de aprovar contratos irregulares configura improbidade administrativa."},
+  {q:"Um fiscal ambiental flagra um crime mas nao faz nada porque o responsavel e amigo do prefeito. Que dever foi descumprido?",opts:["A) Dever de Prestar Contas.","B) Dever de Agir (Poder-Dever).","C) Dever de Publicidade.","D) Dever de Eficiencia."],answer:1,topic:"Deveres PEPA - Dever de Agir",roteiro:2,fb:"O Dever de Agir (Poder-Dever de Agir) obriga o agente com competencia a agir. A omissao intencional e tao ilegal quanto o excesso. Nao agir para proteger amigo configura abuso de poder por omissao."},
+  {q:"Qual a diferenca fundamental entre Estado, Governo e Administracao Publica?",opts:["A) Sao sinonimos no Direito Administrativo brasileiro.","B) Estado e permanente, Governo e temporario e decide, Administracao executa.","C) Governo e permanente, Estado muda com eleicoes, Administracao legisla.","D) Administracao e quem decide, Governo executa, Estado fiscaliza."],answer:1,topic:"Estado, Governo e Administracao Publica",roteiro:3,fb:"Estado e o Brasil como pessoa juridica permanente. Governo e quem esta no poder (temporario) e toma decisoes politicas. Administracao Publica e a maquina que executa as decisoes no dia a dia."},
+  {q:"Um fiscal multa uma ambulancia do SAMU estacionada na calcada enquanto paramédicos salvam uma vida. Qual principio foi violado?",opts:["A) Legalidade, pois a lei permite multar.","B) Publicidade, pois a multa nao foi publicada.","C) Razoabilidade, pois a punicao e desproporcional a situacao.","D) Eficiencia, pois o servico foi lento."],answer:2,topic:"Poder de Policia e Razoabilidade",roteiro:4,fb:"O Principio da Razoabilidade exige que a punicao seja proporcional a infracao e ao contexto. Multar ambulancia em servico de emergencia e desproporcional - o interesse publico de salvar a vida supera a infracao de transito."},
+  {q:"Uma empresa concessionaria de onibus decide cancelar as linhas aos domingos alegando prejuizo. Essa conduta e:",opts:["A) Legitima, pois empresa privada gere contratos com base na lucratividade.","B) Irregular, pois servicos publicos essenciais nao podem ser interrompidos unilateralmente.","C) Valida se notificar usuarios com 30 dias de antecedencia.","D) Permitida com autorizacao do Secretario Municipal."],answer:1,topic:"Principio da Continuidade dos Servicos Publicos",roteiro:5,fb:"O Principio da Continuidade impede interrupcao unilateral de servicos essenciais. O concessionario executa o servico em nome do Estado - lucro nao e a finalidade. A solucao correta e renegociar o contrato com a Administracao."},
+  {q:"Uma Camara Municipal nao publica o edital de licitacao no Diario Oficial dizendo que sao informacoes internas. Qual principio viola?",opts:["A) Eficiencia, pois o processo e lento.","B) Publicidade, pois o edital deve ser acessivel a qualquer interessado.","C) Moralidade, pois servidores agiram de forma antiética.","D) Legalidade, pois camaras nao podem licitar."],answer:1,topic:"Principio da Publicidade - Licitacoes",roteiro:6,fb:"O Principio da Publicidade exige que editais sejam publicados no Diario Oficial e no site do orgao. Tratar edital como informacao interna impede concorrencia, fere a isonomia e invalida o processo licitatorio."},
+  {q:"Patrícia foi demitida ilegalmente apos processo administrativo irregular. Ela pode ir imediatamente ao Judiciario?",opts:["A) Sim. O Brasil adota o Sistema de Jurisdicao Unica - qualquer lesao pode ser levada ao Judiciario.","B) Nao. Ela deve esgotar todos os recursos administrativos primeiro.","C) Nao. O Judiciario nao julga atos internos da Administracao.","D) Sim, e o juiz passara a administrar a Prefeitura no lugar do Prefeito."],answer:0,topic:"Controle Judicial - Sistema de Jurisdicao Unica",roteiro:7,fb:"O Brasil adota o Sistema Ingles (Jurisdicao Unica), garantido pelo art. 5, XXXV da CF/88. Patricia pode ir ao Judiciario imediatamente. O juiz anula o ato ilegal mas nao substitui o administrador."},
+  {q:"Qual das condutas abaixo representa violacao ao dever de Probidade do agente publico?",opts:["A) Aplicar multa a um estabelecimento mesmo sendo conhecido do proprietario.","B) Contratar empresa de familiar para desviar recursos do erario.","C) Digitalizar servicos da prefeitura para reduzir custos.","D) Embargar obra clandestina apos vistoria oficial."],answer:1,topic:"Deveres PEPA - Probidade e Improbidade",roteiro:2,fb:"A Probidade exige honestidade no trato com a coisa publica. Contratar empresa de familiar para desviar dinheiro publico e improbidade administrativa - pode resultar em perda do cargo, suspensao de direitos politicos e ressarcimento ao erario."},
+  {q:"Sobre o Principio da Legalidade aplicado a Administracao Publica, e correto afirmar:",opts:["A) O agente publico pode fazer tudo que a lei nao proibe, como qualquer cidadao.","B) O agente publico so pode agir quando ha lei autorizando - sem previsao legal, nao ha competencia.","C) A legalidade permite criar novas obrigacoes por decreto sem precisar de lei.","D) O Principio da Legalidade se aplica apenas ao Poder Executivo."],answer:1,topic:"Principio da Legalidade - LIMPE",roteiro:1,fb:"O Principio da Legalidade na Administracao e mais restrito que para particulares: o agente so pode fazer o que a lei expressamente autoriza. Para o cidadao comum vale o oposto - pode tudo que a lei nao proibe."},
+  {q:"Um vereador usa verba do gabinete para imprimir calendarios com sua foto e distribuir para eleitores. Essa conduta viola:",opts:["A) Apenas a Eficiencia, pois houve desperdicio de dinheiro publico.","B) A Impessoalidade, pois recursos publicos nao podem ser usados para promocao pessoal.","C) A Publicidade, pois a distribuicao deveria ser feita pelo Diario Oficial.","D) Nenhum principio, pois o vereador tem autonomia sobre a verba do gabinete."],answer:1,topic:"Principio da Impessoalidade - LIMPE",roteiro:1,fb:"O art. 37, paragrafo 1 da CF/88 proibe publicidade com carater pessoal/promocional. O dinheiro do gabinete e publico e nao pode ser usado para beneficio eleitoral, violando a Impessoalidade e podendo configurar improbidade."},
+  {q:"Um servidor diz que informacoes sobre gastos publicos sao reservadas ao controle interno. Qual dever viola?",opts:["A) Dever de Eficiencia, pois deveria responder mais rapido.","B) Dever de Prestar Contas e Principio da Publicidade.","C) Principio da Moralidade, pois mentiu ao cidadao.","D) Apenas normas internas, sem impacto nos principios constitucionais."],answer:1,topic:"Deveres PEPA - Prestar Contas e Publicidade",roteiro:2,fb:"O Dever de Prestar Contas e o Principio da Publicidade garantem ao cidadao o direito de saber como o dinheiro publico e gasto. A Lei de Acesso a Informacao refroca isso. Sigilo so e legitimo quando expressamente previsto em lei."},
+  {q:"Qual a diferenca fundamental entre o Principio da Legalidade aplicado ao particular e ao agente publico?",opts:["A) Nao ha diferenca - ambos seguem as mesmas regras.","B) O particular pode fazer tudo que a lei nao proibe; o agente publico so pode fazer o que a lei autoriza.","C) O agente publico tem mais liberdade de acao que o particular.","D) O particular esta sujeito a legalidade estrita; o agente publico pode agir por conveniencia."],answer:1,topic:"Principio da Legalidade - LIMPE",roteiro:1,fb:"Para o particular: liberdade e a regra, lei estabelece os limites. Para o agente publico: a lei e o fundamento da atuacao - sem autorizacao legal, nao ha competencia para agir. Essa inversao e a essencia do Principio da Legalidade."},
+  {q:"O dever de Prestar Contas impoe ao agente publico a obrigacao de:",opts:["A) Apresentar relatorios apenas quando solicitado pelo Ministerio Publico.","B) Demonstrar de forma transparente como os recursos publicos foram utilizados, independentemente de solicitacao.","C) Explicar suas decisoes apenas aos superiores hierarquicos, mantendo sigilo perante os cidadaos.","D) Justificar seus atos somente em caso de suspeita de irregularidade."],answer:1,topic:"Deveres PEPA - Dever de Prestar Contas",roteiro:2,fb:"O Dever de Prestar Contas e permanente e independe de solicitacao. Todo agente que administra recursos publicos deve demonstrar como esse dinheiro foi usado - ao TCE, TCU, Camara e ao cidadao. A omissao e infracao grave."}
+];
+
+const openData = [
+  {q:"Um fiscal da vigilância sanitária deixa de autuar um restaurante irregular porque o dono e seu cunhado. Com base nos deveres PEPA, explique quais deveres foram descumpridos e por que essa conduta e ilegal.",model:"A conduta viola o Dever de Agir (Poder-Dever) e o Dever de Probidade. O Dever de Agir determina que o agente com competencia e obrigado a agir - a omissao intencional e ilegal. A Probidade exige honestidade; favorecer parente em detrimento do interesse publico configura improbidade administrativa. Viola tambem a Impessoalidade, pois o agente usou a funcao publica para beneficiar pessoa por vinculo pessoal."},
+  {q:"Explique por que um servico publico concedido a empresa privada nao pode ser interrompido mesmo dando prejuizo. Quais medidas a Administracao pode tomar?",model:"O Principio da Continuidade impede interrupcao unilateral de servicos essenciais. A concessao nao transfere a titularidade do servico - apenas sua execucao. O dono continua sendo o Estado e o servico existe para o interesse publico, nao para gerar lucro. Com prejuizo, a empresa deve buscar reequilibrio economico-financeiro do contrato. O poder publico pode notificar, aplicar multas contratuais, intervir na concessao ou retomar o servico."},
+  {q:"O Brasil adota o Sistema de Jurisdicao Unica. Explique o que isso significa na pratica e como difere do Sistema Frances. Use um exemplo.",model:"O Sistema de Jurisdicao Unica significa que ha apenas um sistema de Justica - o Judiciario - que pode julgar qualquer ato, inclusive os da Administracao. Previsto no art. 5, XXXV, CF/88. Qualquer pessoa prejudicada por ato ilegal pode ir ao Judiciario imediatamente, sem esgotar recursos administrativos. Exemplo: servidor demitido ilegalmente pode ajuizar acao sem esperar decisao final da Prefeitura. No Sistema Frances ha tribunais administrativos separados - modelo nao adotado no Brasil."},
+  {q:"Explique os deveres PEPA do agente publico. Para cada dever, de um exemplo pratico de cumprimento e de violacao.",model:"PEPA: Probidade (honestidade - cumprimento: multar infrator mesmo sendo amigo; violacao: receber propina para nao autuar). Eficiencia (qualidade e rapidez - cumprimento: digitalizar processos; violacao: deixar requerimentos parados sem justificativa). Prestar Contas (transparencia nos gastos - cumprimento: apresentar relatorio ao TCE no prazo; violacao: nao prestar contas de verba recebida). Agir (exercer competencia quando necessario - cumprimento: autuar irregularidade mesmo que infrator seja conhecido; violacao: se omitir diante de crime para proteger amigo)."}
+];
+
+const checklistItems = [
+  "Sei enunciar os 5 principios do LIMPE e o que cada um significa.",
+  "Consigo identificar qual principio do LIMPE e violado em casos praticos.",
+  "Sei explicar os 4 deveres do PEPA: Probidade, Eficiencia, Prestar Contas e Agir.",
+  "Entendo o que e o Poder-Dever de Agir e por que a omissao e ilegal.",
+  "Sei distinguir Estado, Governo e Administracao Publica com exemplos.",
+  "Compreendo o Principio da Continuidade e por que a concessao nao pode ser interrompida por lucro.",
+  "Sei que o Brasil adota o Sistema de Jurisdicao Unica (nao o Sistema Frances).",
+  "Entendo que o Judiciario anula atos ilegais mas nao administra no lugar do gestor.",
+  "Sei explicar o Poder de Policia e quando ele viola a Razoabilidade.",
+  "Consigo diferenciar Publicidade (transparencia) de Impessoalidade (vedacao a promocao pessoal)."
+];
+
+// -------------------------------
+// NAVEGACAO
+// -------------------------------
+function showTab(id,btn){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// -------------------------------
+// PROGRESSO
+// -------------------------------
+function updateProgress(){
+  const pct=Math.round((answered/mcData.length)*100);
+  document.getElementById('prog').style.width=pct+'%';
+  document.getElementById('prog-lbl').textContent=answered+' de '+mcData.length+' questoes respondidas';
+  if(answered===mcData.length)showDiagnostico();
+}
+
+// -------------------------------
+// MULTIPLA ESCOLHA
+// -------------------------------
+function buildMC(){
+  const wrap=document.getElementById('mc-wrap');
+  mcData.forEach(function(item,i){
+    const div=document.createElement('div');
+    div.className='exercise-card';
+    div.innerHTML='<div class="ex-label">Questao '+String(i+1).padStart(2,'0')+' - Multipla Escolha</div>'+
+      '<div class="ex-question">'+item.q+'</div>'+
+      '<div class="options" id="opts-'+i+'">'+
+      item.opts.map(function(o,j){return '<button class="option" onclick="checkAnswer('+i+','+j+')">'+o+'</button>';}).join('')+
+      '</div><div class="feedback" id="fb-'+i+'"></div>';
+    wrap.appendChild(div);
+  });
+}
+
+function checkAnswer(qi,oi){
+  const opts=document.querySelectorAll('#opts-'+qi+' .option');
+  if(opts[0].disabled)return;
+  opts.forEach(function(o,j){
+    o.disabled=true;
+    if(j===mcData[qi].answer)o.classList.add('correct');
+    else if(j===oi)o.classList.add('wrong');
+  });
+  const correct=oi===mcData[qi].answer;
+  results[qi]=correct;
+  const fb=document.getElementById('fb-'+qi);
+  fb.className='feedback show '+(correct?'ok':'err');
+  fb.innerHTML='<strong>'+(correct?'Correto!':'Incorreto.')+'</strong> '+mcData[qi].fb;
+  answered++;
+  updateProgress();
+}
+
+// -------------------------------
+// DIAGNOSTICO
+// -------------------------------
+function showDiagnostico(){
+  const erros=mcData.filter(function(_,i){return results[i]===false;});
+  const acertos=mcData.length-erros.length;
+  const pct=Math.round((acertos/mcData.length)*100);
+  let nivel,emoji;
+  if(pct===100){nivel='Excelente! Dominio total.';emoji='🏆';}
+  else if(pct>=70){nivel='Bom desempenho - alguns pontos para refinar.';emoji='👍';}
+  else if(pct>=50){nivel='Desempenho intermediario - atencao aos temas abaixo.';emoji='⚠';}
+  else{nivel='Precisa reforcar bastante antes da prova.';emoji='📚';}
+
+  let html='<div style="background:#fff;border:1px solid #C8E0D4;border-radius:13px;padding:1.25rem;margin-top:1rem">'+
+    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #C8E0D4">'+
+    '<div style="font-size:1.8rem">'+emoji+'</div>'+
+    '<div><div style="font-size:10px;font-weight:700;color:#1A7A4A;text-transform:uppercase;margin-bottom:3px">Diagnostico</div>'+
+    '<div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:#0F5132">'+nivel+'</div></div></div>'+
+    '<div style="display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap">'+
+    '<div style="flex:1;min-width:90px;background:#F0FAF5;border-radius:9px;padding:.8rem;text-align:center">'+
+    '<div style="font-size:24px;font-weight:800;color:#0F5132">'+acertos+'</div><div style="font-size:11px;color:#4B6358">acertos</div></div>'+
+    '<div style="flex:1;min-width:90px;background:#FFF1EE;border-radius:9px;padding:.8rem;text-align:center">'+
+    '<div style="font-size:24px;font-weight:800;color:#9A3412">'+erros.length+'</div><div style="font-size:11px;color:#4B6358">erros</div></div>'+
+    '<div style="flex:1;min-width:90px;background:#F0FAF5;border-radius:9px;padding:.8rem;text-align:center">'+
+    '<div style="font-size:24px;font-weight:800;color:#0F5132">'+pct+'%</div><div style="font-size:11px;color:#4B6358">aproveitamento</div></div></div>';
+
+  if(erros.length>0){
+    html+='<div style="font-size:12px;font-weight:700;color:#9A3412;margin-bottom:8px">Temas que precisa estudar mais:</div>';
+    const topicos=new Set();
+    erros.forEach(function(item){
+      if(topicos.has(item.topic))return;
+      topicos.add(item.topic);
+      html+='<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#FFF8F5;border:1px solid #F5CABC;border-radius:8px;margin-bottom:6px">'+
+        '<div style="width:24px;height:24px;border-radius:50%;background:#9A3412;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">'+item.roteiro+'</div>'+
+        '<div><div style="font-size:12px;font-weight:700;color:#7C2D12">'+item.topic+'</div>'+
+        '<div style="font-size:10px;color:#9A6050">Revise o Topico '+item.roteiro+' no Roteiro de Estudos</div></div></div>';
+    });
+  }
+  html+='</div>';
+
+  const diagEl=document.getElementById('diagnostico');
+  diagEl.innerHTML=html;
+  diagEl.style.display='block';
+  diagEl.scrollIntoView({behavior:'smooth',block:'start'});
+
+  // Salva resultado automaticamente
+  salvarResultado(acertos,pct,erros);
+}
+
+// -------------------------------
+// DISSERTATIVAS
+// -------------------------------
+function buildOpen(){
+  const wrap=document.getElementById('open-wrap');
+  openData.forEach(function(item,i){
+    const div=document.createElement('div');
+    div.className='open-card';
+    div.innerHTML='<div class="ex-label">Questao '+String(i+1).padStart(2,'0')+' - Dissertativa</div>'+
+      '<div class="ex-question">'+item.q+'</div>'+
+      '<textarea id="diss-'+i+'" placeholder="Escreva sua resposta aqui..."></textarea>'+
+      '<button class="show-model-btn" onclick="toggleModel('+i+',this)">Ver resposta-modelo</button>'+
+      '<div class="model-answer" id="model-'+i+'"><strong>Resposta-modelo:</strong><br>'+item.model+'</div>';
+    wrap.appendChild(div);
+  });
+}
+
+function toggleModel(i,btn){
+  const m=document.getElementById('model-'+i);
+  const showing=m.classList.toggle('show');
+  btn.textContent=showing?'Ocultar resposta-modelo':'Ver resposta-modelo';
+}
+
+// -------------------------------
+// CHECKLIST
+// -------------------------------
+function buildChecklist(){
+  const wrap=document.getElementById('checklist-wrap');
+  checklistItems.forEach(function(item,i){
+    const div=document.createElement('div');
+    div.className='checklist-item';
+    div.innerHTML='<input type="checkbox" id="ck-'+i+'" onchange="updateCkScore()"><label for="ck-'+i+'">'+item+'</label>';
+    wrap.appendChild(div);
+  });
+}
+function updateCkScore(){
+  const total=checklistItems.length;
+  const checked=document.querySelectorAll('#checklist-wrap input:checked').length;
+  document.getElementById('ck-score').textContent=checked+' / '+total+' itens dominados';
+}
+
+// -------------------------------
+// SALVAR NO FIREBASE
+// -------------------------------
+async function salvarResultado(acertos,pct,erros){
+  try{
+    const dissEls=openData.map(function(_,i){
+      const el=document.getElementById('diss-'+i);
+      return el?el.value.trim():'';
+    });
+    const registro={
+      alunoId:alunoId,
+      nome:alunoNome,
+      turmaId:alunoTurmaId,
+      turma:alunoTurmaNome,
+      dataHora:new Date().toISOString(),
+      placar:pct,
+      acertos:acertos,
+      total:mcData.length,
+      respostasMC:mcData.map(function(item,i){return {enunciado:item.q.substring(0,100),correto:results[i]===true,topic:item.topic};}),
+      dissertativas:openData.map(function(item,i){return {enunciado:item.q.substring(0,100),resposta:dissEls[i]||''};}),
+      temasFragos:[...new Set(erros.map(function(e){return e.topic;}))],
+      temasOk:[...new Set(mcData.filter(function(_,i){return results[i]===true;}).map(function(e){return e.topic;}))]
+    };
+    if(!_db)await initFB();
+    const {doc,setDoc}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const chave='resultado_'+alunoTurmaId+'_'+alunoId;
+    await setDoc(doc(_db,'quiz_resultados',chave),registro);
+  }catch(e){console.log('Erro ao salvar MC:',e);}
+}
+
+async function enviarTudo(){
+  const btn=document.getElementById('btn-enviar');
+  const ok=document.getElementById('envio-ok');
+  btn.disabled=true;
+  btn.textContent='Enviando...';
+  try{
+    if(!_db)await initFB();
+    const {doc,getDoc,setDoc}=await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    const chave='resultado_'+alunoTurmaId+'_'+alunoId;
+    const snap=await getDoc(doc(_db,'quiz_resultados',chave));
+    const existing=snap.exists()?snap.data():{};
+    const dissertativas=openData.map(function(item,i){
+      const el=document.getElementById('diss-'+i);
+      return {enunciado:item.q.substring(0,100),resposta:el?el.value.trim():''};
+    });
+    const temResposta=dissertativas.some(function(d){return d.resposta.length>0;});
+    if(!temResposta){alert('Escreva ao menos uma resposta antes de enviar.');btn.disabled=false;btn.textContent='Enviar Respostas ao Professor';return;}
+    await setDoc(doc(_db,'quiz_resultados',chave),Object.assign({},existing,{
+      nome:alunoNome,
+      turmaId:alunoTurmaId,
+      turma:alunoTurmaNome,
+      alunoId:alunoId,
+      dissertativas:dissertativas,
+      dataHora:new Date().toISOString()
+    }));
+    ok.style.display='block';
+    btn.textContent='Enviado!';
+    setTimeout(function(){btn.disabled=false;btn.textContent='Enviar Respostas ao Professor';},5000);
+  }catch(e){
+    alert('Erro ao enviar. Tente novamente.');
+    btn.disabled=false;btn.textContent='Enviar Respostas ao Professor';
+  }
+}
+
+// -------------------------------
+// INICIAR
+// -------------------------------
+carregarTurmas();
+</script>
+</body>
+</html>
