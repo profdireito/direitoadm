@@ -652,9 +652,24 @@ async function enviarTudo(){
   }
 }
 
+// -------------------------------
+// GERAÇÃO DO BOLETIM PDF (CORRIGIDO)
+// -------------------------------
 function gerarBoletimPDF() {
-  const erros = mcData.filter(function(_, i){ return results[i] === false; });
-  const acertos = mcData.length - erros.length;
+  let acertos = 0;
+  let erros = 0;
+  let emBranco = 0;
+
+  for (let i = 0; i < mcData.length; i++) {
+    if (results[i] === true) {
+      acertos++;
+    } else if (results[i] === false) {
+      erros++;
+    } else {
+      emBranco++;
+    }
+  }
+
   const pct = Math.round((acertos / mcData.length) * 100);
   const medalha = pct >= 70 ? '🥇 Aprovado com Louvor' : '📚 Requer Revisão';
   
@@ -669,7 +684,13 @@ function gerarBoletimPDF() {
           .title { color: #1A4A2E; font-size: 24px; font-weight: bold; margin-bottom: 5px; }
           .info { font-size: 14px; color: #4B6358; margin-bottom: 5px; }
           .box { border: 1px solid #C8E0D4; border-radius: 12px; padding: 20px; background: #F0FAF5; margin-bottom: 20px; }
-          .score { font-size: 32px; font-weight: bold; color: #0F5132; text-align: center; }
+          .score { font-size: 32px; font-weight: bold; color: #0F5132; text-align: center; margin-bottom: 10px;}
+          .details { display: flex; justify-content: space-around; background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #C8E0D4; margin-top: 20px; }
+          .detail-item { text-align: center; width: 33%; }
+          .detail-val { font-size: 24px; font-weight: bold; margin-bottom: 4px; }
+          .val-acerto { color: #0F5132; }
+          .val-erro { color: #9A3412; }
+          .val-branco { color: #64748B; }
           .footer { text-align: center; font-size: 12px; color: #7A9B8A; margin-top: 50px; }
         </style>
       </head>
@@ -684,14 +705,28 @@ function gerarBoletimPDF() {
         
         <div class="box">
           <div class="score">${pct}% de Aproveitamento</div>
-          <p style="text-align: center; font-weight: bold; margin-top: 10px;">Status: ${medalha}</p>
-          <p style="text-align: center; font-size: 12px;">Acertos: ${acertos} de ${mcData.length}</p>
+          <p style="text-align: center; font-weight: bold; margin: 0; color: #1A4A2E;">Status: ${medalha}</p>
+          
+          <div class="details">
+            <div class="detail-item" style="border-right: 1px solid #E2E8F0;">
+              <div class="detail-val val-acerto">${acertos}</div>
+              <div style="font-size: 12px; color: #4B6358; text-transform: uppercase; font-weight: bold;">Acertos</div>
+            </div>
+            <div class="detail-item" style="border-right: 1px solid #E2E8F0;">
+              <div class="detail-val val-erro">${erros}</div>
+              <div style="font-size: 12px; color: #4B6358; text-transform: uppercase; font-weight: bold;">Erros</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-val val-branco">${emBranco}</div>
+              <div style="font-size: 12px; color: #4B6358; text-transform: uppercase; font-weight: bold;">Em Branco</div>
+            </div>
+          </div>
         </div>
         
-        <p><em>As respostas dissertativas foram anexadas e encaminhadas diretamente ao sistema do docente.</em></p>
+        <p><em>Total de questões da avaliação: ${mcData.length}. As respostas dissertativas foram anexadas e encaminhadas diretamente ao sistema do docente.</em></p>
         
         <div class="footer">
-          Gerado pelo Professor Digital em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}
+          Gerado pelo Estudo Digital em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}
         </div>
         
         <script>
