@@ -116,7 +116,7 @@ main{max-width:860px;margin:0 auto;padding:1.5rem 1rem 5rem}
 .btn-enviar{padding:12px 28px;background:#1A4A2E;color:#fff;border:none;border-radius:11px;font-size:14px;font-weight:700;font-family:"Syne",sans-serif;cursor:pointer;transition:.15s}
 .btn-enviar:hover{background:#2E7D4A}
 .btn-enviar:disabled{opacity:.5;cursor:not-allowed}
-.envio-ok{display:none;margin-top:12px;font-size:13px;font-weight:700;color:#1A4A2E;padding:10px;background:#D6F0E3;border-radius:9px}
+.envio-ok{display:none;margin-top:12px;font-size:13px;font-weight:700;color:#1A4A2E;padding:10px;border-radius:9px}
 
 /* FOOTER */
 footer{text-align:center;padding:1rem;font-size:11px;color:#7A9B8A;border-top:1px solid #C8E0D4;background:#fff}
@@ -205,7 +205,7 @@ footer{text-align:center;padding:1rem;font-size:11px;color:#7A9B8A;border-top:1p
       <div class="envio-box">
         <p>Quando terminar de escrever suas respostas, clique abaixo para enviar ao professor.</p>
         <button class="btn-enviar" id="btn-enviar" onclick="enviarTudo()">Enviar Respostas ao Professor</button>
-        <div class="envio-ok" id="envio-ok">Enviado com sucesso! O professor já pode ver suas respostas.</div>
+        <div class="envio-ok" id="envio-ok"></div>
       </div>
     </div>
     <div class="section" id="checklist">
@@ -217,7 +217,7 @@ footer{text-align:center;padding:1rem;font-size:11px;color:#7A9B8A;border-top:1p
       </div>
     </div>
   </main>
-  <footer>Colégio Excelência · Técnico em Serviços Jurídicos · Prof. Caio Filipe</footer>
+  <footer>Colégio Excelência · Técnico em Serviços Jurídicos · Prof. Caio Duarte Araújo</footer>
 </div>
 
 <script>
@@ -598,7 +598,7 @@ async function salvarResultado(acertos,pct,erros){
 }
 
 // -------------------------------
-// ENVIO E PDF
+// ENVIO E BOLETIM EM TELA
 // -------------------------------
 async function enviarTudo(){
   const btn = document.getElementById('btn-enviar');
@@ -625,6 +625,7 @@ async function enviarTudo(){
       return;
     }
     
+    // Salva no banco de dados
     await setDoc(doc(_db, 'quiz_resultados', chave), Object.assign({}, existing, {
       nome: alunoNome,
       turmaId: alunoTurmaId,
@@ -634,15 +635,50 @@ async function enviarTudo(){
       dissertativas: dissertativas,
       dataHora: new Date().toISOString()
     }));
+
+    // --- CÁLCULO DOS ACERTOS ---
+    let acertos = 0; let erros = 0; let emBranco = 0;
+    for (let i = 0; i < mcData.length; i++) {
+      if (results[i] === true) acertos++;
+      else if (results[i] === false) erros++;
+      else emBranco++;
+    }
+    const pct = Math.round((acertos / mcData.length) * 100);
+    const medalha = pct >= 70 ? '🥇 Aprovado com Louvor' : '📚 Requer Revisão';
     
+    // --- EXIBIÇÃO DO BOLETIM ESCRITO NA TELA ---
     ok.style.display = 'block';
     ok.innerHTML = `
-      <div style="font-size:18px; margin-bottom:5px;">🎓 Missão Cumprida!</div>
-      Enviado com sucesso! O professor Caio já pode ver suas respostas.
-      <br><br>
-      <button onclick="gerarBoletimPDF()" style="background:#0F5132; color:#fff; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-weight:bold; font-family:inherit; margin-top:10px;">
-        📄 Baixar Boletim de Desempenho (PDF)
-      </button>
+      <div style="background: #fff; border: 1px solid #C8E0D4; border-radius: 12px; padding: 20px; text-align: left; margin-top: 10px; box-shadow: 0 4px 12px rgba(15,81,50,0.08);">
+        <div style="font-size: 16px; font-weight: 800; color: #1A4A2E; margin-bottom: 12px; border-bottom: 1px solid #E2E8F0; padding-bottom: 8px; font-family: 'Syne', sans-serif;">
+          Boletim de Desempenho
+        </div>
+        <p style="font-size: 14px; color: #1C2B22; margin-bottom: 12px;">
+          Caro(a) aluno(a) <strong>${alunoNome}</strong>,
+        </p>
+        <p style="font-size: 13px; color: #4B6358; margin-bottom: 15px; line-height: 1.6;">
+          Sua avaliação na disciplina de <strong>${alunoDisciplina}</strong> foi registrada com sucesso e encaminhada ao Prof. Caio. Abaixo está o seu resultado final:
+        </p>
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 15px; text-align: center;">
+          <div style="flex: 1; background: #F0FAF5; padding: 10px; border-radius: 8px; border: 1px solid #C8E0D4;">
+            <div style="font-size: 18px; font-weight: bold; color: #0F5132;">${acertos}</div>
+            <div style="font-size: 10px; color: #4B6358; text-transform: uppercase; font-weight: bold;">Acertos</div>
+          </div>
+          <div style="flex: 1; background: #FFF1EE; padding: 10px; border-radius: 8px; border: 1px solid #FCA5A5;">
+            <div style="font-size: 18px; font-weight: bold; color: #9A3412;">${erros}</div>
+            <div style="font-size: 10px; color: #7C2D12; text-transform: uppercase; font-weight: bold;">Erros</div>
+          </div>
+          <div style="flex: 1; background: #F8FAFC; padding: 10px; border-radius: 8px; border: 1px solid #E2E8F0;">
+            <div style="font-size: 18px; font-weight: bold; color: #64748B;">${emBranco}</div>
+            <div style="font-size: 10px; color: #475569; text-transform: uppercase; font-weight: bold;">Em Branco</div>
+          </div>
+        </div>
+
+        <div style="background: ${pct >= 70 ? '#D6F0E3' : '#FEE2E2'}; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; color: ${pct >= 70 ? '#0F5132' : '#991B1B'}; font-size: 14px;">
+          Status: ${medalha} (${pct}%)
+        </div>
+      </div>
     `;
     btn.style.display = 'none'; 
     
@@ -650,92 +686,6 @@ async function enviarTudo(){
     alert('Erro ao enviar. Verifique sua conexão e tente novamente.');
     btn.disabled = false; btn.textContent = 'Enviar Respostas ao Professor';
   }
-}
-
-// -------------------------------
-// GERAÇÃO DO BOLETIM PDF (CORRIGIDO)
-// -------------------------------
-function gerarBoletimPDF() {
-  let acertos = 0;
-  let erros = 0;
-  let emBranco = 0;
-
-  for (let i = 0; i < mcData.length; i++) {
-    if (results[i] === true) {
-      acertos++;
-    } else if (results[i] === false) {
-      erros++;
-    } else {
-      emBranco++;
-    }
-  }
-
-  const pct = Math.round((acertos / mcData.length) * 100);
-  const medalha = pct >= 70 ? '🥇 Aprovado com Louvor' : '📚 Requer Revisão';
-  
-  const janelaPDF = window.open('', '', 'width=800,height=600');
-  janelaPDF.document.write(`
-    <html>
-      <head>
-        <title>Boletim de Desempenho - ${alunoNome}</title>
-        <style>
-          body { font-family: Arial, sans-serif; padding: 40px; color: #1C2B22; }
-          .header { text-align: center; border-bottom: 2px solid #1A4A2E; padding-bottom: 20px; margin-bottom: 30px; }
-          .title { color: #1A4A2E; font-size: 24px; font-weight: bold; margin-bottom: 5px; }
-          .info { font-size: 14px; color: #4B6358; margin-bottom: 5px; }
-          .box { border: 1px solid #C8E0D4; border-radius: 12px; padding: 20px; background: #F0FAF5; margin-bottom: 20px; }
-          .score { font-size: 32px; font-weight: bold; color: #0F5132; text-align: center; margin-bottom: 10px;}
-          .details { display: flex; justify-content: space-around; background: #fff; padding: 15px; border-radius: 8px; border: 1px solid #C8E0D4; margin-top: 20px; }
-          .detail-item { text-align: center; width: 33%; }
-          .detail-val { font-size: 24px; font-weight: bold; margin-bottom: 4px; }
-          .val-acerto { color: #0F5132; }
-          .val-erro { color: #9A3412; }
-          .val-branco { color: #64748B; }
-          .footer { text-align: center; font-size: 12px; color: #7A9B8A; margin-top: 50px; }
-        </style>
-      </head>
-      <body>
-        <div class="header">
-          <div class="title">⚖️ Boletim de Desempenho</div>
-          <div class="info">${alunoDisciplina} - Técnico em Serviços Jurídicos</div>
-          <div class="info">Prof. Dr. Caio Duarte Araújo</div>
-        </div>
-        
-        <p>Certificamos para os devidos fins que o(a) aluno(a) <strong>${alunoNome}</strong>, matriculado(a) na turma <strong>${alunoTurmaNome}</strong>, concluiu as atividades de estudo com o seguinte desempenho:</p>
-        
-        <div class="box">
-          <div class="score">${pct}% de Aproveitamento</div>
-          <p style="text-align: center; font-weight: bold; margin: 0; color: #1A4A2E;">Status: ${medalha}</p>
-          
-          <div class="details">
-            <div class="detail-item" style="border-right: 1px solid #E2E8F0;">
-              <div class="detail-val val-acerto">${acertos}</div>
-              <div style="font-size: 12px; color: #4B6358; text-transform: uppercase; font-weight: bold;">Acertos</div>
-            </div>
-            <div class="detail-item" style="border-right: 1px solid #E2E8F0;">
-              <div class="detail-val val-erro">${erros}</div>
-              <div style="font-size: 12px; color: #4B6358; text-transform: uppercase; font-weight: bold;">Erros</div>
-            </div>
-            <div class="detail-item">
-              <div class="detail-val val-branco">${emBranco}</div>
-              <div style="font-size: 12px; color: #4B6358; text-transform: uppercase; font-weight: bold;">Em Branco</div>
-            </div>
-          </div>
-        </div>
-        
-        <p><em>Total de questões da avaliação: ${mcData.length}. As respostas dissertativas foram anexadas e encaminhadas diretamente ao sistema do docente.</em></p>
-        
-        <div class="footer">
-          Gerado pelo Estudo Digital em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}
-        </div>
-        
-        <script>
-          window.onload = function() { window.print(); }
-        <\/script>
-      </body>
-    </html>
-  `);
-  janelaPDF.document.close();
 }
 
 // -------------------------------
